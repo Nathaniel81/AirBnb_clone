@@ -1,6 +1,11 @@
+import Filter from "@/components/Filter"
+
 const Home = () => {
   return (
-	<div>Home</div>
+    <>
+      <Filter />
+      <div>Home</div>
+    </>
   )
 }
 

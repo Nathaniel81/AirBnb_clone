@@ -1,29 +1,32 @@
 import { Link } from "react-router-dom";
-import { NavLogos } from "../../constants";
+import { NavImages } from "../../constants";
 import UserNav from "./UserNav";
-import SearchComponent from "./SearchComponent";
+import SearchBar from "./SearchBar";
 
-export function Navbar() {
+
+const Navbar = () => {
   return (
     <nav className="w-full border-b">
-      <div className="flex items-center justify-between container mx-auto px-5 lg:px-10 py-4">
+      <div className="flex items-center justify-between py-4">
         <Link to="/">
           <img 
-            src={NavLogos.Desktop} 
+            src={NavImages.Logo} 
             alt="Desktop Logo"
-            className="w-12 hidden lg:block"
+            className="w-32 hidden lg:block"
           />
 
           <img 
-            src={NavLogos.Mobile} 
+            src={NavImages.Logo} 
             alt="Mobile Logo"
             className="block lg:hidden w-24"
           />
         </Link>
 
-        <SearchComponent />
+        <SearchBar />
         <UserNav />
       </div>
     </nav>
   );
 }
+
+export default Navbar
