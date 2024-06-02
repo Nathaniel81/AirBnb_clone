@@ -56,6 +56,7 @@ __pycache__
 # Django media
 media/
 staticfiles/
+static/
 # Ignore secret keys
 *.secret_key
 
