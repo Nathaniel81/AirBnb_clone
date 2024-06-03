@@ -57,6 +57,7 @@ const UserNav = () => {
       }
     };
     fetchData();
+    //eslint-disable-next-line
   }, [location, code, dispatch, navigate]);
   
   return (
@@ -77,30 +78,28 @@ const UserNav = () => {
       <DropdownMenuContent align="end" className="w-[200px]">
         {user ? (
           <>
-            <DropdownMenuItem>
-              <form action="" className="w-full">
-                <button type="submit" className="w-full text-start">
+            <DropdownMenuItem asChild>
+                <Link to="/create" className="w-full text-start">
                   Airbnb your Home
-                </button>
-              </form>
+                </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link to="/my-homes" className="w-full">
                 My Listings
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link to="/favorites" className="w-full">
                 My Favorites
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link to="/reservations" className="w-full">
                 My Reservations
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link to="/" className="w-full">Logout</Link>
             </DropdownMenuItem>
           </>

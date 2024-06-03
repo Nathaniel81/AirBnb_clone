@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <>
       <Filter />
-      <div>Home</div>
+      {/* <div>Home</div> */}
     </>
   )
 }

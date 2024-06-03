@@ -20,7 +20,7 @@ import {
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-import { useCountries } from "@/hooks/useCountries";
+import { useCountries } from "@/lib/hooks/useCountries";
 
 // import { HomeMap } from "./HomeMap";
 // import { CreationSubmit } from "./SubmitButtons";
