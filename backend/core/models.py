@@ -16,11 +16,11 @@ class Property(models.Model):
     host = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     guests = models.PositiveSmallIntegerField(default=0)
     bedrooms = models.PositiveSmallIntegerField(default=0)
     bathrooms = models.PositiveSmallIntegerField(default=0)
-    photos = models.ManyToManyField('Photo')
+    photo = models.URLField(max_length=200, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -30,10 +30,6 @@ class Review(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     review_text = models.TextField()
     rating = models.PositiveSmallIntegerField()
-
-class Photo(models.Model):
-    picture = CloudinaryField('image', null=True, blank=True)
-    alt_text = models.CharField(max_length=200, null=True, blank=True)
 
 class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

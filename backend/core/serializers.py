@@ -1,12 +1,12 @@
 from rest_framework import serializers
 
-from .models import Address, Category, Photo, Property, Review, Wishlist
+from .models import Address, Category, Property, Review, Wishlist
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'title', 'picture_url']
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,11 +16,6 @@ class PropertySerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'
-
-class PhotoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Photo
         fields = '__all__'
 
 class WishlistSerializer(serializers.ModelSerializer):
