@@ -39,7 +39,7 @@ interface iAppProps {
     },
     {
       id: 3,
-      name: "erathhome",
+      name: "earthHome",
       description: "This Property is considerd a Earth Home",
       title: "Earth Home",
       imageUrl:
@@ -64,7 +64,7 @@ interface iAppProps {
     {
       id: 6,
       name: "design",
-      description: "This property puts a big focus on design ",
+      description: "This property puts a big focus on design",
       title: "Design",
       imageUrl:
         "https://a0.muscache.com/pictures/50861fca-582c-4bcc-89d3-857fb7ca6528.jpg",
