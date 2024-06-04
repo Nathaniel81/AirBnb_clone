@@ -1,22 +1,29 @@
 import { Link, useLocation } from "react-router-dom";
 // import { categoryItems } from "../constants";
-import { useGetCategories } from "@/lib/react-query/queries";
+import { useGetCategories, useGetProperties } from "@/lib/react-query/queries";
 import { ICategory } from "@/types";
+import { useEffect } from "react";
 
 
 const Filter = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get("filter");
+  console.log(search)
   const pathname = location.pathname;
   const {data: categoryItems} = useGetCategories();
+  const { refetch: refetchProperties } = useGetProperties(search ? `?category=${search}` : '');
 
-  const createQueryString = (name: string, value: string) => {
+  useEffect(() => {
+    refetchProperties()
+  }, [search, refetchProperties])
+
+  const createQueryString = (name: string, cat:ICategory) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value === search) {
+    if (cat.name === search) {
       params.delete(name);
     } else {
-      params.set(name, value);
+      params.set(name, cat.name);
     }
     return params.toString();
   };
@@ -26,7 +33,7 @@ const Filter = () => {
       {categoryItems?.map((item: ICategory) => (
         <Link
           key={item.id}
-          to={pathname + "?" + createQueryString("filter", item.name)}
+          to={pathname + "?" + createQueryString("filter", item)}
           className={`${
             search === item.name
               ? "border-b-2 border-[#F8395A] pb-2 flex-shrink-0"

@@ -36,6 +36,10 @@ export interface IUser {
     description: string;
   }
 
+  export interface IProperty {
+    id: string;
+  }
+
   export interface RootState {
     userInfo: IUser | null;
     category: string | null;

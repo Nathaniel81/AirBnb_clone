@@ -1,10 +1,23 @@
 import Filter from "@/components/Filter"
+import Properties from "@/components/Properties";
 
-const Home = () => {
+
+const Home = ({
+  searchParams,
+}: {
+  searchParams?: {
+    filter?: string;
+    country?: string;
+    guest?: string;
+    room?: string;
+    bathroom?: string;
+  };
+}) => {
+
   return (
     <>
       <Filter />
-      {/* <div>Home</div> */}
+      <Properties searchParams={searchParams} />
     </>
   )
 }

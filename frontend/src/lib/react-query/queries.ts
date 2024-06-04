@@ -15,6 +15,19 @@ export const useGetCategories = () => {
   });
 };
 
+
+const getProperties = async (filter?: string) => {
+  const response = await axios.get(`/api/properties${filter}`);
+  return response.data;
+};
+export const useGetProperties = (filter?: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_PROPERTIES],
+    queryFn: () => getProperties(filter),
+    enabled: !!filter
+  });
+};
+
 export const createListing = async (listing: IListingPayLoad) => {
   const response = await axios.post(`/api/properties/`, listing);
   return response.data;
