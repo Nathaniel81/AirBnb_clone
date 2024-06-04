@@ -1,17 +1,25 @@
 from rest_framework import serializers
 
 from .models import Address, Category, Property, Review, Wishlist
-
+from accounts.serializers import UserSerializer
+from accounts.models import User
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'description', 'title', 'picture_url']
 
-class PropertySerializer(serializers.ModelSerializer):
+class PropertyCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
         fields = '__all__'
+
+class PropertyDetailSerializer(serializers.ModelSerializer):
+    host = UserSerializer()
+    class Meta:
+        model = Property
+        fields = '__all__'
+        depth = 1
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
