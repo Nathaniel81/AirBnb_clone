@@ -1,25 +1,25 @@
 import CategoryShowcase from "@/components/CategoryShowcase";
-import { lazy, Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from "@/components/ui/use-toast";
 import { useCountries } from "@/lib/hooks/useCountries";
 import {
-    useCreateReservation,
-    useGetPropertyDetail,
-    useGetReservations
+  useCreateReservation,
+  useGetPropertyDetail,
+  useGetReservations
 } from "@/lib/react-query/queries";
 import { setPropertyDetail } from "@/redux/state";
 import { RootState } from "@/redux/store";
 import { eachDayOfInterval, format } from "date-fns";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+// import PropertyPageloading from "@/components/PropertyPageloading";
 
 const LazyMap = lazy(() => import('../components/Map'));
 
@@ -122,6 +122,10 @@ const Property = () =>  {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  // if (isLoading) {
+  //   return <PropertyPageloading />
+  // }
 
   return (
     <div className="w-[75%] mx-auto mt-10 mb-12">

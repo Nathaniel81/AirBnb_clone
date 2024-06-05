@@ -5,4 +5,5 @@ export { default as Details } from "./Details";
 export { default as Address } from "./Address";
 export { default as Favorites } from "./Favorites";
 export { default as MyProperties } from "./MyProperties";
+export { default as Reservations } from "./Reservations";
 export { default as RootLayout } from "./RootLayout";

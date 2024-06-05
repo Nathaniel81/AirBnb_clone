@@ -65,6 +65,17 @@ export const useGetReservations = (property_id: string) => {
   });
 };
 
+const getMyReservations = async () => {
+  const response = await axios.get(`/api/auth/reservations`,);
+  return response.data;
+};
+export const useGetMyReservations = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_MY_RESERVATIONS],
+    queryFn: () => getMyReservations(),
+  });
+};
+
 export const createReservation = async (reservation: IReservationPayload) => {
   const response = await axios.post(`/api/reservations/`, reservation);
   return response.data;

@@ -17,7 +17,7 @@ from .utils import decode_jwt
 
 from rest_framework import generics, status
 from core.serializers import PropertyDetailSerializer
-from core.models import Property
+from core.models import Property, Reservation
 from .authenticate import CustomAuthentication
 from rest_framework.permissions import IsAuthenticated
 
@@ -188,3 +188,13 @@ class UserPropertiesList(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         return Property.objects.select_related('category', 'address', 'host').filter(host=user)
+
+class UserReservationsAPIView(APIView):
+    authentication_classes = [CustomAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        properties = Property.objects.filter(reservation__user=user).distinct()
+        serializer = PropertyDetailSerializer(properties, many=True)
+        return Response(serializer.data)

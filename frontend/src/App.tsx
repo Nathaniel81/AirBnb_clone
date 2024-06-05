@@ -7,7 +7,8 @@ import {
   Details, 
   Address, 
   Favorites, 
-  MyProperties ,
+  MyProperties,
+  Reservations,
   RootLayout, 
 } from './_root';
 
@@ -26,6 +27,7 @@ function App() {
             <Route path='/create/address' element={<Address />} />
             <Route path='/favorites' element={<Favorites />} />
             <Route path='/my-properties' element={<MyProperties />} />
+            <Route path='/reservations' element={<Reservations />} />
           </Route>
         </Routes>
       </Router>
