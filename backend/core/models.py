@@ -35,13 +35,16 @@ class Property(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class Reservation(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    createdAt = models.DateTimeField(auto_now_add=True)
+
 class Review(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     review_text = models.TextField()
     rating = models.PositiveSmallIntegerField()
-
-class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    properties = models.ManyToManyField(Property)
     

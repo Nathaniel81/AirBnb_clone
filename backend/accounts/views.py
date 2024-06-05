@@ -15,6 +15,12 @@ from .serializers import UserSerializer
 from .models import User
 from .utils import decode_jwt
 
+from rest_framework import generics, status
+from core.serializers import PropertyDetailSerializer
+from core.models import Property
+from .authenticate import CustomAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 
 def login(request):
     """
@@ -131,3 +137,54 @@ class KindeCallbackView(APIView):
         )
 
         return response
+
+class UserWishListView(APIView):
+    serializer_class = PropertyDetailSerializer
+    authentication_classes = [CustomAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        if not user or user.is_anonymous:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+        properties = user.wish_list.prefetch_related('category', 'host', 'address').all()
+        serializer = PropertyDetailSerializer(properties, many=True)
+        return Response({'wish_list': serializer.data}, status=status.HTTP_200_OK)
+
+    def patch(self, request):
+        user = request.user
+        property_id = request.data.get('property_id')
+
+        if not property_id:
+            return Response({'error': 'Property id is not provided'}, status=status.HTTP_400_BAD_REQUEST)
+        if not user or user.is_anonymous:
+            return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+        try:
+            property = Property.objects.select_related('category', 'host', 'address').get(id=property_id)
+        except Property.DoesNotExist:
+            return Response({'error': 'Property not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        if property in user.wish_list.all():
+            user.wish_list.remove(property)
+            action = 'removed from'
+        else:
+            user.wish_list.add(property)
+            action = 'added to'
+        
+        serializer = PropertyDetailSerializer(
+            user.wish_list.prefetch_related('category', 'host', 'address').all(), many=True)
+
+        return Response({
+            'message': f'Property {action} wish list',
+            'wish_list': serializer.data
+        }, status=status.HTTP_200_OK)
+
+class UserPropertiesList(generics.ListAPIView):
+    authentication_classes = [CustomAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = PropertyDetailSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Property.objects.select_related('category', 'address', 'host').filter(host=user)

@@ -1,10 +1,43 @@
+export interface IAddress {
+  id: string;
+  continent: string;
+  country: string;
+  province: string;
+  city: string;
+}
+
+export interface ICategory {
+  id: string;
+  name: string;
+  title: string;
+  picture_url: string;
+  description: string;
+}
+
+export interface IProperty {
+  id: string;
+  title: string;
+  description: string;
+  price: string;
+  photo: string;
+  guests: string;
+  bathrooms: string;
+  rooms: string;
+  bedrooms: string;
+  address: IAddress;
+  category: ICategory;
+  host: IUser
+}
+
 export interface IUser {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    picture: string;
-  }
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  picture: string;
+  wishlist: IProperty[];
+  myProperties: IProperty[];
+}
 
   interface IDetails {
     title: string;
@@ -16,28 +49,31 @@ export interface IUser {
     fileUrl: string | null;
 }
   
-  export interface IAddress {
+  export interface IAddressPayload {
     value: string;
     label: string;
     region: string;
   }
   
-  export interface IListingPayLoad {
+  export interface IPropertyPayLoad {
     category: string;
     details: IDetails | null;
-    address: IAddress | null;
+    address: IAddressPayload | null;
   }
 
-  export interface ICategory {
-    id: string;
-    name: string;
-    title: string;
-    picture_url: string;
-    description: string;
+  export interface IWishlistPayLoad {
+    property_id: string;
   }
 
-  export interface IProperty {
-    id: string;
+  export interface IReservationDates {
+    startDate: string | null;
+    endDate: string | null;
+  }
+
+  export interface IReservationPayload {
+    startDate: string | undefined;
+    endDate: string | undefined;
+    property: string | undefined;
   }
 
   export interface RootState {
@@ -45,4 +81,5 @@ export interface IUser {
     category: string | null;
     details: IDetails | null;
     address: IAddress | null;
+    propertyDetail: IProperty | null;
   }

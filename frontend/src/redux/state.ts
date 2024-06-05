@@ -14,7 +14,8 @@ export const initialState: RootState = {
     bathrooms: 0,
     fileUrl: null,
   },
-  address: null
+  address: null,
+  propertyDetail: null
 }
 
 export const appSlice = createSlice({
@@ -26,6 +27,15 @@ export const appSlice = createSlice({
     },
     resetUser: (state) => {
       state.userInfo = null;
+    },
+    setWishlist: (state, action) => {
+      if (state.userInfo) state.userInfo.wishlist = action.payload
+    },
+    setMyProperties: (state, action) => {
+      if (state.userInfo) state.userInfo.myProperties = action.payload
+    },
+    setPropertyDetail: (state, action) => {
+      state.propertyDetail = action.payload
     },
     setCategory: (state, action) => {
       state.category = action.payload;
@@ -68,18 +78,21 @@ export const appSlice = createSlice({
 
 export const {
   addUser,
-  resetUser,
-  setCategory,
-  setTitle,
-  setDescription,
-  setPrice,
-  setGuests,
-  setRooms,
-  setBathrooms,
   setFile,
+  setTitle,
+  setRooms,
+  setPrice,
+  resetUser,
+  setGuests,
   setAddress,
+  setCategory,
+  setWishlist,
   resetAddress,
+  resetDetails,
+  setBathrooms,
   resetCategory,
-  resetDetails
+  setDescription,
+  setMyProperties,
+  setPropertyDetail,
 } = appSlice.actions;
 export default appSlice.reducer

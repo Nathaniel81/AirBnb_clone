@@ -32,6 +32,7 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=100, null=True, blank=True)
     picture = CloudinaryField('image', null=True, blank=True)
     email = models.EmailField(unique=True)
+    wish_list = models.ManyToManyField('core.Property', related_name='wish_users', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

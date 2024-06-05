@@ -9,10 +9,9 @@ const Filter = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const search = searchParams.get("filter");
-  console.log(search)
   const pathname = location.pathname;
   const {data: categoryItems} = useGetCategories();
-  const { refetch: refetchProperties } = useGetProperties(search ? `?category=${search}` : '');
+  const { refetch: refetchProperties } = useGetProperties(search ? search : '');
 
   useEffect(() => {
     refetchProperties()

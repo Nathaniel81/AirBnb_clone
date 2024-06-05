@@ -84,7 +84,7 @@ const UserNav = () => {
                 </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/my-homes" className="w-full">
+              <Link to="/my-properties" className="w-full">
                 My Listings
               </Link>
             </DropdownMenuItem>

@@ -1,6 +1,8 @@
 import Filter from "@/components/Filter"
 import Properties from "@/components/Properties";
-
+// import { setPropertyDetail } from "@/redux/state";
+// import { useEffect } from "react";
+// import { useDispatch } from "react-redux";
 
 const Home = ({
   searchParams,
@@ -13,6 +15,10 @@ const Home = ({
     bathroom?: string;
   };
 }) => {
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(setPropertyDetail({}));
+  // }, [dispatch])
 
   return (
     <>

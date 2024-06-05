@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { initialState } from "@/redux/state";
 import { useCreateListing } from "@/lib/react-query/queries";
-import { IListingPayLoad } from "@/types";
+import { IPropertyPayLoad } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useToast } from "./ui/use-toast";
@@ -43,7 +43,7 @@ const CreationBottomBar = () => {
 
   const handleClick = () => {
     if(category && (JSON.stringify(details) !== JSON.stringify(initialState.details)) && address){
-      const payload: IListingPayLoad = {
+      const payload: IPropertyPayLoad = {
         category, 
         details,
         address
