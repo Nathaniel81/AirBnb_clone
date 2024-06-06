@@ -31,14 +31,27 @@ class PropertyViewSet(viewsets.ModelViewSet):
             return PropertyCreateSerializer
 
     def filter_queryset(self, queryset):
-        category_name = self.request.query_params.get('category')
+        category = self.request.query_params.get('category')
+        country = self.request.query_params.get('country')
+        guests = self.request.query_params.get('guests')
+        rooms = self.request.query_params.get('rooms')
+        bathrooms = self.request.query_params.get('bathrooms')
 
-        if category_name:
-            queryset = queryset.filter(category__name=category_name)
+        if category:
+            queryset = queryset.filter(category__name=category)
+        if country:
+            queryset = queryset.filter(address__country=country)
+        if guests:
+            queryset = queryset.filter(guests=guests)
+        if rooms:
+            queryset = queryset.filter(bedrooms=rooms)
+        if bathrooms:
+            queryset = queryset.filter(bathrooms=bathrooms)
+    
         return queryset
 
     def get_permissions(self):
-        if self.action == 'list':
+        if self.action == 'list' or self.action == 'retrieve':
             return [permissions.AllowAny()]
         return super().get_permissions()
 
