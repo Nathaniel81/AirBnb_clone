@@ -4,6 +4,9 @@ export interface IAddress {
   country: string;
   province: string;
   city: string;
+  value: string;
+  label: string;
+  region: string;
 }
 
 export interface ICategory {
@@ -39,47 +42,53 @@ export interface IUser {
   myProperties: IProperty[];
 }
 
-  interface IDetails {
-    title: string;
-    description: string;
-    price: number;
-    guests: number;
-    rooms: number;
-    bathrooms: number;
-    fileUrl: string | null;
+interface IDetails {
+  title: string;
+  description: string;
+  price: number;
+  guests: number;
+  rooms: number;
+  bathrooms: number;
+  fileUrl: string | null;
 }
   
-  export interface IAddressPayload {
-    value: string;
-    label: string;
-    region: string;
-  }
+export interface IAddressPayload {
+  value: string;
+  label: string;
+  region: string;
+}
   
-  export interface IPropertyPayLoad {
-    category: string;
-    details: IDetails | null;
-    address: IAddressPayload | null;
-  }
+export interface IPropertyPayLoad {
+  category: string | null;
+  details: IDetails | null;
+  address: IAddressPayload | null;
+}
 
-  export interface IWishlistPayLoad {
-    property_id: string;
-  }
+export interface IWishlistPayLoad {
+  property_id: string;
+}
 
-  export interface IReservationDates {
-    startDate: string | null;
-    endDate: string | null;
-  }
+export interface IReservationDates {
+  startDate: string | null;
+  endDate: string | null;
+}
 
-  export interface IReservationPayload {
-    startDate: string | undefined;
-    endDate: string | undefined;
-    property: string | undefined;
-  }
+export interface IReservationPayload {
+  startDate: string | undefined;
+  endDate: string | undefined;
+  property: string | undefined;
+}
 
-  export interface RootState {
-    userInfo: IUser | null;
-    category: string | null;
-    details: IDetails | null;
-    address: IAddress | null;
-    propertyDetail: IProperty | null;
-  }
+export interface ISearchParam {
+  country?: string,
+  guests?: number,
+  rooms?: number,
+  bathrooms?: number
+}
+
+export interface RootState {
+  userInfo: IUser | null;
+  category: string | null;
+  details: IDetails | null;
+  address: IAddress | null;
+}
