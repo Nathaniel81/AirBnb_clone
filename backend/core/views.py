@@ -48,7 +48,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
         if bathrooms:
             queryset = queryset.filter(bathrooms=bathrooms)
     
-        return queryset
+        return queryset.order_by('-created_at')
 
     def get_permissions(self):
         if self.action == 'list' or self.action == 'retrieve':

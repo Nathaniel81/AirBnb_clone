@@ -35,12 +35,18 @@ class Property(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.title
+
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     startDate = models.DateTimeField()
     endDate = models.DateTimeField()
     createdAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Reservation for property '{self.property.title}' by user '{self.user.username}'"
 
 class Review(models.Model):
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE)
