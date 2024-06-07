@@ -1,5 +1,5 @@
-import { createSlice} from "@reduxjs/toolkit"
 import { RootState } from "@/types";
+import { createSlice } from '@reduxjs/toolkit';
 
 
 export const initialState: RootState = {
@@ -15,13 +15,13 @@ export const initialState: RootState = {
     fileUrl: null,
   },
   address: null,
-  propertyDetail: null
 }
 
 export const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    // User information
     addUser: (state, action) => {
       state.userInfo = action.payload;
     },
@@ -34,14 +34,16 @@ export const appSlice = createSlice({
     setMyProperties: (state, action) => {
       if (state.userInfo) state.userInfo.myProperties = action.payload
     },
-    setPropertyDetail: (state, action) => {
-      state.propertyDetail = action.payload
-    },
+
+    //Property creation payloads
     setCategory: (state, action) => {
       state.category = action.payload;
     },
     resetCategory: (state) => {
       state.category = null;
+    },
+    setAddress: (state, action) => {
+      state.address = action.payload;
     },
     setTitle: (state, action) => {
       if (state.details) state.details.title = action.payload;
@@ -67,9 +69,6 @@ export const appSlice = createSlice({
     resetDetails: (state) => {
       state.details = initialState.details;
     },
-    setAddress: (state, action) => {
-      state.address = action.payload;
-    },
     resetAddress: (state) => {
       state.address = null;
     },
@@ -78,21 +77,20 @@ export const appSlice = createSlice({
 
 export const {
   addUser,
-  setFile,
+  resetUser,
+  setWishlist,
+  setMyProperties,
+  setCategory,
   setTitle,
+  setFile,
   setRooms,
   setPrice,
-  resetUser,
   setGuests,
+  setBathrooms,
   setAddress,
-  setCategory,
-  setWishlist,
+  setDescription,
   resetAddress,
   resetDetails,
-  setBathrooms,
   resetCategory,
-  setDescription,
-  setMyProperties,
-  setPropertyDetail,
 } = appSlice.actions;
 export default appSlice.reducer

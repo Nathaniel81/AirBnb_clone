@@ -20,20 +20,45 @@ import {
 import { Search } from "lucide-react";
 import { useState } from "react";
 
-import { useCountries } from "@/lib/hooks/useCountries";
-
-// import { HomeMap } from "./HomeMap";
-// import { CreationSubmit } from "./SubmitButtons";
-// import { Counter } from "./Counter";
-
-
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader } from "@/components/ui/card";
+import { useCountries } from "@/lib/hooks/useCountries";
+import Counter from "../Counter";
+import Map from "../Map";
+import { getFlagUrl } from "@/lib/utils";
+
+import { useNavigate } from "react-router-dom";
+
 
 const SearchBar = () => {
   const [step, setStep] = useState(1);
+  const [searchParams, setSearchParams] = useState({
+    country: '',
+    guests: 0,
+    bathrooms: 0,
+    rooms: 0
+  });
+
   const [locationValue, setLocationValue] = useState("");
-  const { getAllCountries } = useCountries();
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { getAllCountries, getCountryByValue } = useCountries();
+
+  //eslint-disable-next-line
+  const handleSelectChange = (value: any) => {
+    setLocationValue(value);
+    const selectedCountry = getCountryByValue(value);
+    if (selectedCountry) {
+      setSearchParams(prevParams => ({ ...prevParams, country:  selectedCountry.label}))
+    }
+  };
+
+  const handleSearch = () => {
+    setOpen(false);
+    navigate('/', { state: { searchParams } });
+    setLocationValue('');
+    setStep(1);
+  }
 
   function SubmitButtonLocal() {
     if (step === 1) {
@@ -43,12 +68,16 @@ const SearchBar = () => {
         </Button>
       );
     } else if (step === 2) {
-      // return <CreationSubmit />;
-      return;
+      return (
+        <Button onClick={() => handleSearch()} type="button">
+          Next
+        </Button>
+      )
     }
   }
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <div className="rounded-full py-2 px-5 border flex items-center cursor-pointer">
           <div className="flex h-full divide-x font-medium">
@@ -74,7 +103,7 @@ const SearchBar = () => {
 
               <Select
                 required
-                onValueChange={(value) => setLocationValue(value)}
+                onValueChange={handleSelectChange}
                 value={locationValue}
               >
                 <SelectTrigger className="w-full">
@@ -85,20 +114,29 @@ const SearchBar = () => {
                     <SelectLabel>Countries</SelectLabel>
                     {getAllCountries().map((item) => (
                       <SelectItem key={item.value} value={item.value}>
-                        {item.flag} {item.label} / {item.region}
+                        <div className="flex">
+                          <img 
+                            src={getFlagUrl(item?.value ?? '')}
+                            alt={item?.flag}
+                            width={20}
+                          />
+                          <span className="ml-2">
+                            {item?.label} / {item?.region}
+                          </span>
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              {/* <HomeMap locationValue={locationValue} /> */}
+              <Map locationValue={locationValue} />
             </>
           ) : (
             <>
               <DialogHeader>
                 <DialogTitle>Select all the info you need</DialogTitle>
                 <DialogDescription>
-                  Pleae Choose a Country, so that what you want
+                  Please Choose a Country, so that what you want
                 </DialogDescription>
               </DialogHeader>
 
@@ -111,8 +149,12 @@ const SearchBar = () => {
                         How many guests do you want?
                       </p>
                     </div>
-
-                    {/* <Counter name="guest" /> */}
+                    <Counter 
+                      value={searchParams.guests} 
+                      onChange={
+                        (value) => setSearchParams(
+                          prevParams => ({ ...prevParams, guests: value })
+                      )} />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
@@ -121,24 +163,31 @@ const SearchBar = () => {
                         How many rooms do you have?
                       </p>
                     </div>
-
-                    {/* <Counter name="room" /> */}
+                    <Counter 
+                      value={searchParams.rooms} 
+                      onChange={
+                        (value) => setSearchParams(
+                          prevParams => ({ ...prevParams, rooms: value })
+                      )} />
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
                       <h3 className="underline font-medium">Bathrooms</h3>
                       <p className="text-muted-foreground text-sm">
-                        How many bathrooms do you have?
+                        How many bathrooms do you want?
                       </p>
                     </div>
-
-                    {/* <Counter name="bathroom" /> */}
+                    <Counter 
+                      value={searchParams.bathrooms}
+                      onChange={
+                        (value) => setSearchParams(
+                          prevParams => ({ ...prevParams, bathrooms: value })
+                      )} />
                   </div>
                 </CardHeader>
               </Card>
             </>
           )}
-
           <DialogFooter>
             <SubmitButtonLocal />
           </DialogFooter>

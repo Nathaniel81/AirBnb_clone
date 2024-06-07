@@ -1,7 +1,7 @@
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SkeletonLoading = () => {
-  const repeatCount = 9;
+  const repeatCount = 12;
   const skeletonArray = Array.from({ length: repeatCount });
 
   return (
