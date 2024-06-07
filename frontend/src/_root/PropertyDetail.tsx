@@ -114,9 +114,9 @@ const PropertyDetail = () =>  {
   }
 
   return (
-    <div className="w-[75%] mx-auto mt-10 mb-12">
+    <div className="w-full lg:w-3/4 mx-auto mt-10 mb-12 px-4 lg:px-0">
       <h1 className="font-medium text-2xl mb-5">{propertyDetail?.title}</h1>
-      <div className="relative h-[550px]">
+      <div className="relative h-64 md:h-96 lg:h-[550px]">
         <img
           alt="Property Image"
           src={propertyDetail?.photo}
@@ -124,9 +124,9 @@ const PropertyDetail = () =>  {
         />
       </div>
 
-      <div className="flex justify-between gap-x-24 mt-8">
-        <div className="w-2/3">
-          <h3 className="text-xl font-medium flex">
+      <div className="md:flex justify-between gap-x-8 lg:gap-x-24 mt-8">
+        <div className="w-full md:w-2/3">
+          <h3 className="text-xl font-medium flex items-center">
             <img 
               src={getFlagUrl(countryByLabel?.value ?? '')}
               alt={country?.flag}
@@ -136,9 +136,12 @@ const PropertyDetail = () =>  {
               {country?.label} / {country?.region}
             </span>
           </h3>
-          <div className="flex gap-x-2 text-muted-foreground">
-            <p>{propertyDetail?.guests} Guests</p> • <p>{propertyDetail?.bedrooms} Bedrooms</p> •{" "}
-            {propertyDetail?.bathrooms} Bathrooms
+          <div className="flex flex-wrap gap-x-2 text-muted-foreground mt-2">
+            <p>{propertyDetail?.guests} Guests</p> 
+            <span className="hidden sm:inline">•</span>
+            <p>{propertyDetail?.bedrooms} Bedrooms</p> 
+            <span className="hidden sm:inline">•</span>
+            <p>{propertyDetail?.bathrooms} Bathrooms</p>
           </div>
 
           <div className="flex items-center mt-6">
@@ -170,7 +173,7 @@ const PropertyDetail = () =>  {
             <LazyMap locationValue={country?.value as string} />
           </Suspense>
         </div>
-        <div>
+        <div className="w-full md:w-auto mt-8 md:mt-0">
           <input
             type="hidden"
             name="startDate"
@@ -192,11 +195,11 @@ const PropertyDetail = () =>  {
             disabledDates={disabledDates}
           />
           {isReservationLoading ? (
-            <Button className="w-full" disabled>
+            <Button className="w-full mt-4" disabled>
               <Loader2 className="w-4 h-4 animate-spin mr-2" /> Please wait...
             </Button>
           ) : (
-            <Button className="w-full" onClick={handleSubmit}>
+            <Button className="w-full mt-4" onClick={handleSubmit}>
               Make a Reservation!
             </Button>
           )}

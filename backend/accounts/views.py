@@ -15,11 +15,12 @@ from .serializers import UserSerializer
 from .models import User
 from .utils import decode_jwt
 
-from rest_framework import generics, status
+from rest_framework import generics, status, exceptions
 from core.serializers import PropertyDetailSerializer
 from core.models import Property, Reservation
 from .authenticate import CustomAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt import tokens
 
 
 def login(request):
@@ -139,6 +140,13 @@ class KindeCallbackView(APIView):
         return response
 
 class UserWishListView(APIView):
+    """
+    Handles user wish list operations.
+
+    Retrieves and modifies the user's wish list of properties. Supports fetching
+    the wish list and toggling property status (add/remove).
+    """
+
     serializer_class = PropertyDetailSerializer
     authentication_classes = [CustomAuthentication]
     permission_classes = [IsAuthenticated]
@@ -180,7 +188,59 @@ class UserWishListView(APIView):
             'wish_list': serializer.data
         }, status=status.HTTP_200_OK)
 
+
+class LogoutView(APIView):
+    """
+    Custom view for logging out users by blacklisting refresh tokens and deleting cookies.
+    """
+
+    def post(self, request):
+        """
+        Handle POST request for logging out users.
+
+        This method blacklists the refresh token, deletes authentication cookies,
+        and returns a response indicating successful logout.
+
+        Args:
+            request (HttpRequest): The request object.
+
+        Returns:
+            Response: The HTTP response.
+        """
+
+        try:
+            refreshToken = request.COOKIES.get(
+                settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+            # Instantiate a RefreshToken object
+            token = tokens.RefreshToken(refreshToken)
+            token.blacklist()
+
+            response = Response({'LoggedOut'})
+            # Delete authentication cookies
+            response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
+            response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+
+            return response
+
+        except tokens.TokenError as e:
+            # If there's a TokenError, still construct a response and delete cookies
+            response = Response({'LoggedOut'})
+            response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
+            response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+        
+            return response
+        except Exception as e:
+            print(e)
+            raise exceptions.ParseError("Invalid token")
+
 class UserPropertiesList(generics.ListAPIView):
+    """
+    Lists properties owned by the authenticated user.
+
+    Retrieves a queryset of properties associated with the user, including related
+    data such as category, address, and host information.
+    """
+
     authentication_classes = [CustomAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = PropertyDetailSerializer
@@ -190,6 +250,13 @@ class UserPropertiesList(generics.ListAPIView):
         return Property.objects.select_related('category', 'address', 'host').filter(host=user)
 
 class UserReservationsAPIView(APIView):
+    """
+    Lists properties reserved by the authenticated user.
+
+    Retrieves a queryset of properties reserved by the user. The queryset includes
+    distinct properties to avoid duplicates.
+    """
+
     authentication_classes = [CustomAuthentication]
     permission_classes = [IsAuthenticated]
 

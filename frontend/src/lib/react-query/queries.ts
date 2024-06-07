@@ -3,7 +3,17 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from 'axios';
 import { QUERY_KEYS } from "./queryKeys";
 
-// Wishlist-related queries
+// User-related queries
+const signOutAccount = async () => {
+  const response = await axios.post('/api/auth/logout/');
+  return response.data;
+};
+export const useSignOutAccount = () => {
+  return useMutation({
+    mutationFn: signOutAccount,
+  });
+};
+
 export const updateWishlist = async (property_id: IWishlistPayLoad) => {
   const response = await axios.patch(`/api/auth/wishlist/`, property_id);
   return response.data;

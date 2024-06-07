@@ -18,10 +18,13 @@ import {
 } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
+import { useSignOutAccount } from "@/lib/react-query/queries";
+import { resetState } from "@/redux/state";
 
 
 const UserNav = () => {
   const user = useSelector((state: RootState) => state.userInfo);
+  const { mutate: signout, isError, isSuccess } = useSignOutAccount();
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -29,6 +32,10 @@ const UserNav = () => {
 
   const handleLogin = () => {
     window.location.href = 'http://127.0.0.1:8000/api/auth/login/';
+  }
+
+  const handleSignout = () => {
+    signout();
   }
 
   const query = new URLSearchParams(location.search);
@@ -56,6 +63,19 @@ const UserNav = () => {
     fetchData();
     //eslint-disable-next-line
   }, [location, code, dispatch, navigate]);
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        title: 'Something went wrong',
+        variant: 'destructive',
+      })
+    }
+    if (isSuccess) {
+      dispatch(resetState());
+    }
+    //eslint-disable-next-line
+  }, [isError, isSuccess])
   
   return (
     <DropdownMenu>
@@ -97,13 +117,22 @@ const UserNav = () => {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/" className="w-full">Logout</Link>
+              <Link 
+                to="/"
+                onClick={() => handleSignout()}
+                className="w-full">
+                  Logout
+              </Link>
             </DropdownMenuItem>
           </>
         ) : (
           <>
             <DropdownMenuItem>
-              <div onClick={() => handleLogin()} className="w-full">Sign In</div>
+              <div 
+                onClick={() => handleLogin()} 
+                className="w-full cursor-pointer">
+                  Sign In
+              </div>
             </DropdownMenuItem>
           </>
         )}

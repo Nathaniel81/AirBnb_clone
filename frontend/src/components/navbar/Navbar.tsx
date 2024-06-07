@@ -23,7 +23,7 @@ const Navbar = () => {
             className="block lg:hidden w-24"
           />
         </Link>
-
+        
         <SearchBar />
         <UserNav />
       </div>

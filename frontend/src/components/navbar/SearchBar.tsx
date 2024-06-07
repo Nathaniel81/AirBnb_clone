@@ -79,8 +79,8 @@ const SearchBar = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="rounded-full py-2 px-5 border flex items-center cursor-pointer">
-          <div className="flex h-full divide-x font-medium">
+        <div className="rounded-full py-2 px-5 sm:border flex items-center cursor-pointer ml-auto sm:ml-0">
+          <div className="hidden sm:flex h-full divide-x font-medium">
             <p className="px-4">Anywhere</p>
             <p className="px-4">Any Week</p>
             <p className="px-4">Add Guests</p>

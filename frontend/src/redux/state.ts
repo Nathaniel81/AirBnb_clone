@@ -72,6 +72,10 @@ export const appSlice = createSlice({
     resetAddress: (state) => {
       state.address = null;
     },
+
+    resetState: (state) => {
+      Object.assign(state, initialState);
+    }
   }
 });
 
@@ -92,5 +96,6 @@ export const {
   resetAddress,
   resetDetails,
   resetCategory,
+  resetState
 } = appSlice.actions;
 export default appSlice.reducer

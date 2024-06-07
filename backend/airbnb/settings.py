@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'core',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 # Kinde OAuth2 Configuration

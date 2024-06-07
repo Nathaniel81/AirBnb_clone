@@ -88,7 +88,7 @@ const PropertyCard = ({ property }: PropertyProps) => {
         <img
           src={property.photo}
           alt="Property image"
-          className="rounded-lg h-full object-cover transform transition-transform duration-300 hover:scale-110"
+          className="rounded-lg h-full w-full object-cover transform transition-transform duration-300 hover:scale-110"
         />
           <div 
             className="z-10 absolute top-2 right-2"
