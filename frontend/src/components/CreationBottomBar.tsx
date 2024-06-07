@@ -1,17 +1,16 @@
 import { Button } from "@/components/ui/button";
+import { useCreateListing } from "@/lib/react-query/queries";
 import { resetAddress, resetCategory, resetDetails } from "@/redux/state";
 import { AppDispatch, RootState } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { initialState } from "@/redux/state";
-import { useCreateListing } from "@/lib/react-query/queries";
 import { IPropertyPayLoad } from "@/types";
 import { Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "./ui/use-toast";
 
 
-const CreationBottomBar = () => {
+const CreationBottomBar = ({ step }: {step: number}) => {
   const category = useSelector((state: RootState) => state.category);
   const details = useSelector((state: RootState) => state.details);
   const address = useSelector((state: RootState) => state.address);
@@ -42,19 +41,50 @@ const CreationBottomBar = () => {
   }, [isSuccess, isError]);
 
   const handleClick = () => {
-    if(category && (JSON.stringify(details) !== JSON.stringify(initialState.details)) && address){
-      const payload: IPropertyPayLoad = {
-        category, 
-        details,
-        address
-      }
-      createListing(payload)
-
-    } else if (category && (JSON.stringify(details) !== JSON.stringify(initialState.details))) {
-      navigate('/create/address');
-    } else if (category) {
-      navigate('details');
-  }}
+    const showToast = (title: string, description: string) => {
+      toast({
+        title,
+        description,
+        variant: 'destructive',
+      });
+    };
+  
+    switch (step) {
+      case 1:
+        if (category) {
+          navigate('details');
+        } else {
+          showToast('Category required', 'Please select a category to proceed.');
+        }
+        break;
+  
+      case 2:
+        if (details?.title && details?.price && details.description && details.fileUrl) {
+          navigate('/create/address');
+        } else {
+          showToast('Incomplete details', 'Please fill in all the required fields.');
+        }
+        break;
+  
+      case 3:
+        if (address) {
+          const payload: IPropertyPayLoad = {
+            category,
+            details,
+            address,
+          };
+          createListing(payload);
+        } else {
+          showToast('Country required', 'Please provide a country to proceed.');
+        }
+        break;
+  
+      default:
+        showToast('Invalid step', 'Please follow the steps in order.');
+        break;
+    }
+  };
+  
  
   const handleCancel = () => {
     dispatch(resetAddress());

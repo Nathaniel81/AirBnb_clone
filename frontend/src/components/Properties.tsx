@@ -1,23 +1,26 @@
-import { useGetProperties } from "@/lib/react-query/queries";
 import PropertyCard from "@/components/PropertyCard";
-import SkeletonLoading from "./SkeletonLoading";
+import { useGetProperties } from "@/lib/react-query/queries";
 import { IProperty } from "@/types";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import NoItem from "./NoItem";
+import SkeletonLoading from "./SkeletonLoading";
 
-interface SearchParams {
-	filter?: string;
-	country?: string;
-	guest?: string;
-	room?: string;
-	bathroom?: string;
-  }
-
-  const Properties: React.FC<{
-	searchParams?: SearchParams;
-  }> = ({ searchParams }) => {
-
-  // const user = useSelector((state: RootState) => state.userInfo);
-  const {data: properties, isPending, isRefetching} = useGetProperties("");
+const Properties = () => {
+  const location = useLocation();
+  const { searchParams } = location.state || {};
+  const { data: properties, isPending, isRefetching, refetch } = useGetProperties(
+    undefined,
+    searchParams?.country,
+    searchParams?.guests,
+    searchParams?.rooms,
+    searchParams?.bathrooms,
+  );
+  useEffect(() => {
+    if (searchParams ) {
+      refetch();
+    }
+  }, [refetch, searchParams]);
 
   if (isPending || isRefetching) {
     return <SkeletonLoading />
@@ -27,7 +30,7 @@ interface SearchParams {
     <>
       {properties?.length === 0 ? (
         <NoItem
-          title="Hey you dont have any favorites"
+          title="No properties found for your search"
           description="Please add favorites to see them right here..."
       />
       ) : (

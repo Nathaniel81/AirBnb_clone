@@ -1,8 +1,8 @@
 export { default as Home } from "./Home";
-export { default as Property } from "./Property";
-export { default as Create } from "./Create";
-export { default as Details } from "./Details";
-export { default as Address } from "./Address";
+export { default as PropertyDetail } from "./PropertyDetail";
+export { default as Create } from "./create/Create";
+export { default as Details } from "./create/Details";
+export { default as Country } from "./create/Country";
 export { default as Favorites } from "./Favorites";
 export { default as MyProperties } from "./MyProperties";
 export { default as Reservations } from "./Reservations";

@@ -1,4 +1,5 @@
 import CategoryShowcase from "@/components/CategoryShowcase";
+import PropertyPageloading from "@/components/PropertyPageloading";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,7 +10,6 @@ import {
   useGetPropertyDetail,
   useGetReservations
 } from "@/lib/react-query/queries";
-import { setPropertyDetail } from "@/redux/state";
 import { RootState } from "@/redux/store";
 import { eachDayOfInterval, format } from "date-fns";
 import { Loader2 } from "lucide-react";
@@ -17,32 +17,29 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-// import PropertyPageloading from "@/components/PropertyPageloading";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { getFlagUrl } from "@/lib/utils";
 
 const LazyMap = lazy(() => import('../components/Map'));
 
-const Property = () =>  {
-  const data = useSelector((state: RootState) => state.propertyDetail);
+const PropertyDetail = () =>  {
   const user= useSelector((state: RootState) => state.userInfo);
   const { toast } = useToast();
   const { id } = useParams();
-  const { data: propertyDetail } = useGetPropertyDetail(id ?? '');
+  const { data: propertyDetail, isPending: isPropertyLoading } = useGetPropertyDetail(id ?? '');
   const { data: reservations } = useGetReservations(id ?? '');
   const { 
     mutate: createReservation, 
-    isPending, 
+    isPending: isReservationLoading, 
     isError, 
     isSuccess  
   } = useCreateReservation();
 
-  const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
-  const { property } = location.state || {};
   const { getAllCountries, getCountryByValue } = useCountries();
-  const countryLabel = data?.address?.country;
+  const countryLabel = propertyDetail?.address?.country;
+
   const allCountries = getAllCountries();
   
   const countryByLabel = allCountries.find(
@@ -93,18 +90,7 @@ const Property = () =>  {
   }
 
   useEffect(() => {
-    if (property) {
-        dispatch(setPropertyDetail(property));
-    }
-    if (JSON.stringify(propertyDetail) != JSON.stringify(data)) {
-        dispatch(setPropertyDetail(propertyDetail));
-    }
-  //eslint-disable-next-line
-  }, [dispatch, propertyDetail]);
-
-  useEffect(() => {
     if (isError){
-        console.log('error')
         toast({
             title: 'Smoething went wrong. Please try again',
             variant: 'destructive',
@@ -123,54 +109,60 @@ const Property = () =>  {
     window.scrollTo(0, 0);
   }, []);
 
-  // if (isLoading) {
-  //   return <PropertyPageloading />
-  // }
+  if (isPropertyLoading) {
+    return <PropertyPageloading />
+  }
 
   return (
     <div className="w-[75%] mx-auto mt-10 mb-12">
-      <h1 className="font-medium text-2xl mb-5">{data?.title}</h1>
+      <h1 className="font-medium text-2xl mb-5">{propertyDetail?.title}</h1>
       <div className="relative h-[550px]">
         <img
           alt="Property Image"
-          src={data?.photo}
+          src={propertyDetail?.photo}
           className="rounded-lg h-full object-cover w-full"
         />
       </div>
 
       <div className="flex justify-between gap-x-24 mt-8">
         <div className="w-2/3">
-          <h3 className="text-xl font-medium">
-            {/* {country?.flag} {country?.label} / {country?.region} */}
-            {/* {country?.flag} {data?.address?.country} / {data?.address?.continent} */}
+          <h3 className="text-xl font-medium flex">
+            <img 
+              src={getFlagUrl(countryByLabel?.value ?? '')}
+              alt={country?.flag}
+              width={27} 
+            />
+            <span className="ml-2">
+              {country?.label} / {country?.region}
+            </span>
           </h3>
           <div className="flex gap-x-2 text-muted-foreground">
-            <p>{data?.guests} Guests</p> • <p>{data?.bedrooms} Bedrooms</p> •{" "}
-            {data?.bathrooms} Bathrooms
+            <p>{propertyDetail?.guests} Guests</p> • <p>{propertyDetail?.bedrooms} Bedrooms</p> •{" "}
+            {propertyDetail?.bathrooms} Bathrooms
           </div>
 
           <div className="flex items-center mt-6">
             <img
               src={
-                data?.host?.picture ??
+                propertyDetail?.host?.picture ??
                 "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
               }
               alt="User Profile"
               className="w-11 h-11 rounded-full"
             />
             <div className="flex flex-col ml-4">
-              <h3 className="font-medium">Hosted by {data?.host?.first_name}</h3>
+              <h3 className="font-medium">Hosted by {propertyDetail?.host?.first_name}</h3>
               <p className="text-sm text-muted-foreground">Host since 2015</p>
             </div>
           </div>
 
           <Separator className="my-7" />
 
-          <CategoryShowcase categoryName={data?.category?.name as string} />
+          <CategoryShowcase categoryName={propertyDetail?.category?.name as string} />
 
           <Separator className="my-7" />
 
-          <p className="text-muted-foreground">{data?.description}</p>
+          <p className="text-muted-foreground">{propertyDetail?.description}</p>
 
           <Separator className="my-7" />
 
@@ -179,7 +171,6 @@ const Property = () =>  {
           </Suspense>
         </div>
         <div>
-          {/* <SelectCalender reservation={reservations} /> */}
           <input
             type="hidden"
             name="startDate"
@@ -200,7 +191,7 @@ const Property = () =>  {
             direction="vertical"
             disabledDates={disabledDates}
           />
-          {isPending ? (
+          {isReservationLoading ? (
             <Button className="w-full" disabled>
               <Loader2 className="w-4 h-4 animate-spin mr-2" /> Please wait...
             </Button>
@@ -215,4 +206,4 @@ const Property = () =>  {
   );
 }
 
-export default Property;
+export default PropertyDetail;

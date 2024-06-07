@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
-import PropertyCard from "@/components/PropertyCard";
 import NoItem from "@/components/NoItem";
-import { useSelector, useDispatch } from "react-redux";
+import PropertyCard from "@/components/PropertyCard";
+import SkeletonLoading from '@/components/SkeletonLoading';
+import { useGetUserProperties } from "@/lib/react-query/queries";
+import { setMyProperties } from '@/redux/state';
 import { RootState } from "@/redux/store";
 import { IProperty } from "@/types";
-import { useGetUserProperties } from "@/lib/react-query/queries";
-import SkeletonLoading from '@/components/SkeletonLoading';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
-import { setMyProperties } from '@/redux/state';
 
 
 const MyProperties = () => {
@@ -36,7 +36,7 @@ const MyProperties = () => {
 
       {myProperties?.length === 0 ? (
         <NoItem
-          description="Please list a hoeme on airbnb so that you can see it right here"
+          description="Please list a home on airbnb so that you can see it right here"
           title="Your dont have any Homes listed"
         />
       ) : (

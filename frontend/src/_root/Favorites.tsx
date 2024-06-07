@@ -1,12 +1,12 @@
-import { useEffect } from 'react';
-import PropertyCard from "@/components/PropertyCard";
 import NoItem from "@/components/NoItem";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/redux/store";
-import { IProperty } from "@/types";
+import PropertyCard from "@/components/PropertyCard";
+import SkeletonLoading from '@/components/SkeletonLoading';
 import { useGetFavorites } from "@/lib/react-query/queries";
 import { setWishlist } from "@/redux/state";
-import SkeletonLoading from '@/components/SkeletonLoading';
+import { RootState } from "@/redux/store";
+import { IProperty } from "@/types";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -37,7 +37,7 @@ const Favorites = () => {
 
       {wishlist?.length === 0 ? (
         <NoItem
-          title="Hey you don't have any favorites"
+          title="You don't have any favorites"
           description="Please add favorites to see them right here..."
         />
       ) : (

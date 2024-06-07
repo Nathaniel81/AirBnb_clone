@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-// import { useCountries } from "@/lib/hooks/useCountries";
+import { useCountries } from "@/lib/hooks/useCountries";
 import { useUpdateWishlist } from "@/lib/react-query/queries";
 import { setWishlist } from "@/redux/state";
 import { RootState } from "@/redux/store";
@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "./ui/use-toast";
+import { getFlagUrl } from "@/lib/utils";
 
 interface AxiosError extends Error {
   response?: {
@@ -32,6 +33,16 @@ const PropertyCard = ({ property }: PropertyProps) => {
     error
   } = useUpdateWishlist();
   const isError = error as AxiosError;
+  
+  const countryLabel = property?.address?.country;
+  
+  const { getAllCountries, getCountryByValue } = useCountries();
+  const allCountries = getAllCountries();
+  
+  const countryByLabel = allCountries.find(
+    (country) => country.label.toLowerCase() === countryLabel?.toLowerCase()
+  );
+  const country = getCountryByValue(countryByLabel?.value as string);
 
   const wishlist = user?.wishlist || [];
 
@@ -66,22 +77,19 @@ const PropertyCard = ({ property }: PropertyProps) => {
     //eslint-disable-next-line
   }, [isError, isSuccess, dispatch])
 
-  // const { getCountryByValue } = useCountries();
-  // const country = getCountryByValue(property?.address?.country);
 
   return (
     <div
       onClick={() => {
-        navigate(`/property/${property.id}`, { state: { property } });
+        navigate(`/property/${property.id}`)
       }}
       className="flex flex-col">
-      <div className="relative h-72 cursor-pointer">
+      <div className="relative h-72 cursor-pointer overflow-hidden">
         <img
           src={property.photo}
           alt="Property image"
-          className="rounded-lg h-full object-cover"
+          className="rounded-lg h-full object-cover transform transition-transform duration-300 hover:scale-110"
         />
-
           <div 
             className="z-10 absolute top-2 right-2"
             onClick={(e) => {
@@ -94,10 +102,19 @@ const PropertyCard = ({ property }: PropertyProps) => {
 
       <div 
         className="mt-2">
-        <h3 className="font-medium text-base">
-          {/* {country?.flag} {property?.address?.country} / {property?.address?.continent} */}
-          {property.title}
+        <h3 className="font-medium text-base flex">
+          <img 
+            src={getFlagUrl(countryByLabel?.value ?? '')}
+            alt={country?.flag}
+            width={25} 
+            />
+            <span className="ml-2">
+              {country?.label} / {country?.region}
+            </span>
         </h3>
+        <p>
+          {property.title}
+        </p>
         <p className="text-muted-foreground text-sm line-clamp-2">
           {property.description}
         </p>
