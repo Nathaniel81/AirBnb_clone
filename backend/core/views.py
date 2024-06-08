@@ -103,6 +103,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+# from emails.tasks import send_reservation_email
+from emails.tasks import send_email
 class ReservationViewsets(viewsets.ModelViewSet):
     """
     Viewset for managing reservations.
@@ -135,4 +137,11 @@ class ReservationViewsets(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
+
+        # Trigger the email task
+        send_email.delay(
+            user_email=request.user.email, 
+            property_title=serializer.validated_data['property'].title
+        )
+
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
