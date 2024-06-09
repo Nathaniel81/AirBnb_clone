@@ -31,8 +31,8 @@ const Properties = () => {
       {properties?.length === 0 ? (
         <NoItem
           title="No properties found for your search"
-          description="Please add favorites to see them right here..."
-      />
+          description="We couldn't find any properties that match your search criteria. Please try adjusting your search or filters to find what you're looking for."
+        />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8 mt-8">
           {properties?.map((property: IProperty) => (
