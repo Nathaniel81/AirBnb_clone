@@ -17,7 +17,7 @@ import { getFlagUrl } from '@/lib/utils';
 
 const LazyMap = lazy(() => import('../../components/Map'));
 
-const Country = () => {
+const Location = () => {
   const { getAllCountries, getCountryByValue } = useCountries();
   const [locationValue, setLocationValue] = useState("");
   const dispatch = useDispatch();
@@ -80,4 +80,4 @@ const Country = () => {
   );
 }
 
-export default Country;
+export default Location;

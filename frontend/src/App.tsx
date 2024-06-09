@@ -5,7 +5,7 @@ import {
   PropertyDetail,
   Create, 
   Details, 
-  Country, 
+  Location, 
   Favorites, 
   MyProperties,
   Reservations,
@@ -24,7 +24,7 @@ function App() {
             <Route path='/property/:id' element={<PropertyDetail />} />
             <Route path='/create' element={<Create />} />
             <Route path='/create/details' element={<Details />} />
-            <Route path='/create/country' element={<Country />} />
+            <Route path='/create/location' element={<Location />} />
             <Route path='/favorites' element={<Favorites />} />
             <Route path='/my-properties' element={<MyProperties />} />
             <Route path='/reservations' element={<Reservations />} />
