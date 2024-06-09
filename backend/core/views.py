@@ -1,17 +1,16 @@
-from accounts.authenticate import CustomAuthentication
+from accounts.authenticate import AllowAnyAuthentication, CustomAuthentication
 from accounts.models import User
+from accounts.permissions import AllowAnonymousGetPermission
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import Address, Category, Property, Reservation
-from .serializers import (
-    CategorySerializer, 
-    PropertyCreateSerializer,
-    PropertyDetailSerializer, 
-    ReservationSerializer
-)
+from .serializers import (CategorySerializer, PropertyCreateSerializer,
+                          PropertyDetailSerializer, ReservationSerializer)
+
+from rest_framework.permissions import SAFE_METHODS
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
@@ -20,9 +19,12 @@ class PropertyViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Property.objects.select_related('category', 'host', 'address').all()
+    permission_classes = [AllowAnonymousGetPermission]
 
-    authentication_classes = [CustomAuthentication]
-    permission_classes = [IsAuthenticated]
+    def get_authenticators(self):
+        if self.request.method in SAFE_METHODS:
+            return [AllowAnyAuthentication()]
+        return [CustomAuthentication()]
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -49,11 +51,6 @@ class PropertyViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(bathrooms=bathrooms)
     
         return queryset.order_by('-created_at')
-
-    def get_permissions(self):
-        if self.action == 'list' or self.action == 'retrieve':
-            return [permissions.AllowAny()]
-        return super().get_permissions()
 
     def create(self, request, *args, **kwargs):
         user = request.user
@@ -103,8 +100,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-# from emails.tasks import send_reservation_email
-from emails.tasks import send_email
 class ReservationViewsets(viewsets.ModelViewSet):
     """
     Viewset for managing reservations.
@@ -138,10 +133,10 @@ class ReservationViewsets(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        # Trigger the email task
-        send_email.delay(
-            user_email=request.user.email, 
-            property_title=serializer.validated_data['property'].title
-        )
+        # # Trigger the email task
+        # send_email.delay(
+        #     user_email=request.user.email, 
+        #     property_title=serializer.validated_data['property'].title
+        # )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
