@@ -10,12 +10,25 @@ This Airbnb Clone aims to replicate the core functionalities of the popular acco
 
 This Airbnb Clone comes packed with a variety of features to provide a seamless user experience:
 
-* User Authentication: Secure login and registration system, including authentication with Google accounts via Kinde.
-* Property Listings: Users can list, browse, search, and view property listings.
-* Booking System: Users can book properties, specifying dates and number of guests.
-* Responsive Design: A fully responsive design ensuring compatibility across various devices.
+* __User Authentication__: Secure login and registration system, including authentication with Google accounts via Kinde.
+* __Property Listings__: Users can list, browse, search, and view property listings.
+* __Booking System__: Users can book properties, specifying dates and number of guests.
+* __Responsive Design__: A fully responsive design ensuring compatibility across various devices.
 
 ## Tech Stack
 
 This project leverages a modern tech stack to deliver a robust and efficient application:
+
+* Frontend:
+  * __React__: A powerful JavaScript library for building user interfaces.
+  * __TypeScript__: A statically typed superset of JavaScript to enhance code quality and maintainability.
+  * __Tailwind CSS__: A utility-first CSS framework for rapid UI development.
+  * __Shadcn UI__: A highly customizable component library that complements TailwindCSS for a consistent design system and extensible library
+* Backend:
+  * __Django__: A high-level Python web framework that encourages rapid development.
+  * __Django REST Framework__: A powerful and flexible toolkit for building Web APIs.
+* Database:
+  * __PostgreSQL__: A powerful, open-source object-relational database system.
+* Authentication:
+  * Kinde: A secure and easy-to-integrate authentication service used for Google account authentication.
 
