@@ -36,10 +36,10 @@ SECRET_KEY = 'django-insecure-)ucjbh#w5z9155p1^#jrwk8x4leoz5+n0^%fi=4jmh8r!9-vtt
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['airbnbapi-u931.onrender.com']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
+    "https://airbnb-msgo.onrender.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'django_filters',
-
     'accounts',
     'core',
     'emails',
@@ -73,9 +72,9 @@ INSTALLED_APPS = [
 
 # Kinde OAuth2 Configuration
 KINDE_DOMAIN = os.getenv('KINDE_DOMAIN')
-CLIENT_ID = os.getenv('CLIENT_ID')
-CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-REDIRECT_URI = os.getenv('REDIRECT_URI')
+KINDE_CLIENT_ID = os.getenv('CLIENT_ID')
+KINDE_CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+KINDE_REDIRECT_URI = os.getenv('REDIRECT_URI')
 
 # Cloudinary - Django Integration
 cloudinary.config(
