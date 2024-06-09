@@ -37,13 +37,11 @@ SECRET_KEY = 'django-insecure-)ucjbh#w5z9155p1^#jrwk8x4leoz5+n0^%fi=4jmh8r!9-vtt
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    # 'airbnbapi-u931.onrender.com',
-    "*"
+    'airbnbapi-u931.onrender.com',
     ]
 
 CORS_ALLOWED_ORIGINS = [
-    # "https://airbnb-msgo.onrender.com",
-    "http://localhost:5173"
+    "https://airbnb-msgo.onrender.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
