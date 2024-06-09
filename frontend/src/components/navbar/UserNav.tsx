@@ -31,7 +31,7 @@ const UserNav = () => {
   const { toast } = useToast();
 
   const handleLogin = () => {
-    window.location.href = 'http://127.0.0.1:8000/api/auth/login/';
+    window.location.href = 'http://127.0.0.1:8000/api/user/login/';
   }
 
   const handleSignout = () => {
@@ -45,7 +45,7 @@ const UserNav = () => {
     const fetchData = async () => {
       if (code) {
         try {
-          const response = await axios.get(`/api/auth/callback?code=${code}`, {
+          const response = await axios.get(`/api/user/callback?code=${code}`, {
             withCredentials: true,
           });
           const userData = response.data;

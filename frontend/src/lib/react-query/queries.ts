@@ -1,11 +1,11 @@
-import { IPropertyPayLoad, IReservationPayload, IWishlistPayLoad } from "@/types";
+import { IPropertyPayLoad, IReservationPayload, IFavoritePayLoad } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from 'axios';
 import { QUERY_KEYS } from "./queryKeys";
 
 // User-related queries
 const signOutAccount = async () => {
-  const response = await axios.post('/api/auth/logout/');
+  const response = await axios.post('/api/user/logout/');
   return response.data;
 };
 export const useSignOutAccount = () => {
@@ -14,18 +14,18 @@ export const useSignOutAccount = () => {
   });
 };
 
-export const updateWishlist = async (property_id: IWishlistPayLoad) => {
-  const response = await axios.patch(`/api/auth/wishlist/`, property_id);
+export const updateFavorites = async (property_id: IFavoritePayLoad) => {
+  const response = await axios.patch(`/api/user/favorites/`, property_id);
   return response.data;
 };
-export const useUpdateWishlist = () => {
+export const useUpdateFavorites = () => {
   return useMutation({
-    mutationFn: (property_id: IWishlistPayLoad) => updateWishlist(property_id),
+    mutationFn: (property_id: IFavoritePayLoad) => updateFavorites(property_id),
   });
 };
 
 const getFavorites = async () => {
-  const response = await axios.get('/api/auth/wishlist/');
+  const response = await axios.get('/api/user/favorites/');
   return response.data;
 };
 export const useGetFavorites = () => {

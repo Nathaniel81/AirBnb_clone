@@ -28,8 +28,8 @@ export const appSlice = createSlice({
     resetUser: (state) => {
       state.userInfo = null;
     },
-    setWishlist: (state, action) => {
-      if (state.userInfo) state.userInfo.wishlist = action.payload
+    setFavorites: (state, action) => {
+      if (state.userInfo) state.userInfo.favorites = action.payload
     },
     setMyProperties: (state, action) => {
       if (state.userInfo) state.userInfo.myProperties = action.payload
@@ -82,7 +82,7 @@ export const appSlice = createSlice({
 export const {
   addUser,
   resetUser,
-  setWishlist,
+  setFavorites,
   setMyProperties,
   setCategory,
   setTitle,

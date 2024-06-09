@@ -139,12 +139,12 @@ class KindeCallbackView(APIView):
 
         return response
 
-class UserWishListView(APIView):
+class UserFavoritesView(APIView):
     """
-    Handles user wish list operations.
+    Handles user favorites operations.
 
-    Retrieves and modifies the user's wish list of properties. Supports fetching
-    the wish list and toggling property status (add/remove).
+    Retrieves and modifies the user's favorites of properties. Supports fetching
+    the favorites and toggling property status (add/remove).
     """
 
     serializer_class = PropertyDetailSerializer
@@ -155,13 +155,14 @@ class UserWishListView(APIView):
         user = request.user
         if not user or user.is_anonymous:
             return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
-        properties = user.wish_list.prefetch_related('category', 'host', 'address').all()
+        properties = user.favorites.prefetch_related('category', 'host', 'address').all()
         serializer = PropertyDetailSerializer(properties, many=True)
-        return Response({'wish_list': serializer.data}, status=status.HTTP_200_OK)
+        return Response({'favorites': serializer.data}, status=status.HTTP_200_OK)
 
     def patch(self, request):
         user = request.user
         property_id = request.data.get('property_id')
+        print(property_id)
 
         if not property_id:
             return Response({'error': 'Property id is not provided'}, status=status.HTTP_400_BAD_REQUEST)
@@ -173,21 +174,20 @@ class UserWishListView(APIView):
         except Property.DoesNotExist:
             return Response({'error': 'Property not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        if property in user.wish_list.all():
-            user.wish_list.remove(property)
+        if property in user.favorites.all():
+            user.favorites.remove(property)
             action = 'removed from'
         else:
-            user.wish_list.add(property)
+            user.favorites.add(property)
             action = 'added to'
         
         serializer = PropertyDetailSerializer(
-            user.wish_list.prefetch_related('category', 'host', 'address').all(), many=True)
+            user.favorites.prefetch_related('category', 'host', 'address').all(), many=True)
 
         return Response({
             'message': f'Property {action} wish list',
-            'wish_list': serializer.data
+            'favorites': serializer.data
         }, status=status.HTTP_200_OK)
-
 
 class LogoutView(APIView):
     """

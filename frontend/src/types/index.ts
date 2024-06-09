@@ -18,7 +18,7 @@ export interface ICategory {
 }
 
 export interface IProperty {
-  id: string;
+  id: number;
   title: string;
   description: string;
   price: string;
@@ -38,7 +38,7 @@ export interface IUser {
   last_name: string;
   email: string;
   picture: string;
-  wishlist: IProperty[];
+  favorites: IProperty[];
   myProperties: IProperty[];
 }
 
@@ -64,8 +64,8 @@ export interface IPropertyPayLoad {
   address: IAddressPayload | null;
 }
 
-export interface IWishlistPayLoad {
-  property_id: string;
+export interface IFavoritePayLoad {
+  property_id: number;
 }
 
 export interface IReservationDates {

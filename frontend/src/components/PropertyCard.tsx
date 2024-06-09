@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCountries } from "@/lib/hooks/useCountries";
-import { useUpdateWishlist } from "@/lib/react-query/queries";
-import { setWishlist } from "@/redux/state";
+import { useUpdateFavorites } from "@/lib/react-query/queries";
+import { setFavorites } from "@/redux/state";
 import { RootState } from "@/redux/store";
 import { IProperty } from "@/types";
 import { useEffect } from "react";
@@ -21,17 +21,18 @@ interface PropertyProps {
 }
 
 const PropertyCard = ({ property }: PropertyProps) => {
+  console.log(property)
   const user = useSelector((state: RootState) => state.userInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { 
-    mutate: updateWishlist, 
+    mutate: updateFavorites, 
     data,
     isPending,
     isSuccess,
     error
-  } = useUpdateWishlist();
+  } = useUpdateFavorites();
   const isError = error as AxiosError;
   
   const countryLabel = property?.address?.country;
@@ -44,9 +45,9 @@ const PropertyCard = ({ property }: PropertyProps) => {
   );
   const country = getCountryByValue(countryByLabel?.value as string);
 
-  const wishlist = user?.wishlist || [];
+  const Favorites = user?.favorites || [];
 
-  const isLiked = wishlist?.find((item: IProperty) => item?.id === property.id);
+  const isLiked = Favorites?.find((item: IProperty) => item?.id === property.id);
 
   const iconStyle = isPending
   ? { color: 'gray', opacity: 0.5 }
@@ -60,12 +61,12 @@ const PropertyCard = ({ property }: PropertyProps) => {
         variant: 'destructive',
       });
     }
-    updateWishlist({property_id: property?.id})
+    updateFavorites({property_id: property?.id})
   }
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(setWishlist(data.wish_list))
+      dispatch(setFavorites(data.favorites))
     }
     if (isError?.response?.status === 401) {
       toast({

@@ -2,7 +2,7 @@ import NoItem from "@/components/NoItem";
 import PropertyCard from "@/components/PropertyCard";
 import SkeletonLoading from '@/components/SkeletonLoading';
 import { useGetFavorites } from "@/lib/react-query/queries";
-import { setWishlist } from "@/redux/state";
+import { setFavorites } from "@/redux/state";
 import { RootState } from "@/redux/store";
 import { IProperty } from "@/types";
 import { useEffect } from 'react';
@@ -15,19 +15,19 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.userInfo);
-  const wishlist = user?.wishlist;
+  const favorites = user?.favorites;
 
   useEffect(() => {
     if (!user) {
         navigate('/')
     }
     if (isSuccess && data) {
-      dispatch(setWishlist(data.wish_list));
+      dispatch(setFavorites(data.favorites));
     }
     //eslint-disable-next-line
   }, [isSuccess, data]);
 
-  if (wishlist?.length === 0 && isPending){
+  if (favorites?.length === 0 && isPending){
     return <SkeletonLoading />
   }
 
@@ -35,14 +35,14 @@ const Favorites = () => {
     <section className="container mx-auto px-5 lg:px-10 mt-10">
       <h2 className="text-3xl font-semibold tracking-tight">Your Favorites</h2>
 
-      {wishlist?.length === 0 ? (
+      {favorites?.length === 0 ? (
         <NoItem
           title="You don't have any favorites"
           description="Please add favorites to see them right here..."
         />
       ) : (
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 grid-cols-1 gap-8 mt-8">
-          {wishlist?.map((item: IProperty) => (
+          {favorites?.map((item: IProperty) => (
             <PropertyCard key={item.id} property={item} />
           ))}
         </div>

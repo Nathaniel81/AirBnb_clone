@@ -18,6 +18,8 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('first_name', 'Admin')
+        extra_fields.setdefault('last_name', 'User')
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -26,13 +28,14 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+
 class User(AbstractUser):
     username = None
     first_name = models.CharField(max_length=100, null=True, blank=True)
     last_name = models.CharField(max_length=100, null=True, blank=True)
     picture = CloudinaryField('image', null=True, blank=True)
     email = models.EmailField(unique=True)
-    wish_list = models.ManyToManyField('core.Property', related_name='wish_users', blank=True)
+    favorites = models.ManyToManyField('core.Property', blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
