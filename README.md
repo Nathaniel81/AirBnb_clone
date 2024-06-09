@@ -23,7 +23,7 @@ This project leverages a modern tech stack to deliver a robust and efficient app
   * __React__: A powerful JavaScript library for building user interfaces.
   * __TypeScript__: A statically typed superset of JavaScript to enhance code quality and maintainability.
   * __Tailwind CSS__: A utility-first CSS framework for rapid UI development.
-  * __Shadcn UI__: A highly customizable component library that complements TailwindCSS for a consistent design system and extensible library
+  * __Shadcn UI__: A highly customizable component library that complements Tailwind CSS for a consistent design system and extensible library
  
 * **Backend**:
   * __Django__: A high-level Python web framework that encourages rapid development.
@@ -81,13 +81,13 @@ Ensure you have the following installed on your system:
 7. **Start the development server**:
 
    * Backend:
-
-   ```
-   python manage.py runserver
-   ```
+     
+      ```
+      python manage.py runserver
+      ```
 
    * Frontend:
-
+     
      ```
      cd ../frontend; npm run dev
      ```
