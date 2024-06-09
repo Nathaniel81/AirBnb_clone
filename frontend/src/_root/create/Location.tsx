@@ -48,7 +48,6 @@ const Location = () => {
               <SelectValue placeholder="Select a Country" />
             </SelectTrigger>
             <SelectContent>
-            <SelectLabel>Countries</SelectLabel>
               <SelectGroup>
                 <SelectLabel>Countries</SelectLabel>
                   {getAllCountries().map((item) => (
