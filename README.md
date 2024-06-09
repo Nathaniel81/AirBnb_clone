@@ -19,16 +19,35 @@ This Airbnb Clone comes packed with a variety of features to provide a seamless 
 
 This project leverages a modern tech stack to deliver a robust and efficient application:
 
-* Frontend:
+* **Frontend**:
   * __React__: A powerful JavaScript library for building user interfaces.
   * __TypeScript__: A statically typed superset of JavaScript to enhance code quality and maintainability.
   * __Tailwind CSS__: A utility-first CSS framework for rapid UI development.
   * __Shadcn UI__: A highly customizable component library that complements TailwindCSS for a consistent design system and extensible library
-* Backend:
+ 
+* **Backend**:
   * __Django__: A high-level Python web framework that encourages rapid development.
   * __Django REST Framework__: A powerful and flexible toolkit for building Web APIs.
-* Database:
+ 
+* **Database**:
   * __PostgreSQL__: A powerful, open-source object-relational database system.
-* Authentication:
-  * Kinde: A secure and easy-to-integrate authentication service used for Google account authentication.
+ 
+* **Authentication**:
+  * __Kinde__: A secure and easy-to-integrate authentication service used for Google account authentication.
 
+## Getting Started
+
+### Prerequisites
+
+Ensure you have the following installed on your system:
+* Node.js (v14 or later)
+* Python (v3.8 or later)
+* PostgreSQL
+
+### Installation
+
+1. **Clone the repository**:
+   ```
+   git clone https://github.com/Nathaniel81/Airbnb_clone.git
+   cd airbnb-clone
+   ```
