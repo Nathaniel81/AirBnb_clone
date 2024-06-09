@@ -34,7 +34,7 @@ const Filter = () => {
               key={index}
               className="flex flex-col gap-y-1 items-center flex-shrink-0"
             >
-              <Skeleton className="w-6 h-6" />
+              <Skeleton className="w-7 h-7" />
               <Skeleton className="w-12 h-2" />
             </div>
           ))
