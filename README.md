@@ -47,7 +47,70 @@ Ensure you have the following installed on your system:
 ### Installation
 
 1. **Clone the repository**:
+   
    ```
-   git clone https://github.com/Nathaniel81/Airbnb_clone.git
-   cd airbnb-clone
+   git clone https://github.com/Nathaniel81/Airbnb_clone.git; cd Airbnb_clone
    ```
+
+2. **Install frontend dependencies:**:
+   
+   ```
+   cd frontend; npm install
+   ```
+
+3. **Install backend dependencies**:
+   
+   ```
+   cd ../backend; pip install -r requirements.txt
+   ```
+
+4. **Set up PostgreSQL database**:
+   
+   Create a database and update the DATABASES settings in backend/settings.py with your database credentials.
+
+5. **Run database migrations**:
+
+   ```
+   python manage.py migrate
+   ```
+  
+6. **Configure Kinde for Google authentication**:
+   
+   Follow Kinde's documentation to set up your Google OAuth credentials and configure the settings in your application.
+
+7. **Start the development server**:
+
+   * Backend:
+
+   ```
+   python manage.py runserver
+   ```
+
+   * Frontend:
+
+     ```
+     cd ../frontend; npm run dev
+     ```
+  
+## Usage
+
+Once the servers are running, you can access the application by navigating to `http://localhost:5173` in your web browser. Register a new user, browse listings, make bookings, and explore the features of this Airbnb Clone. You can also use your Google account to log in via Kinde.
+
+## Contributing
+
+I welcome contributions to enhance this project. To contribute:
+
+1. Fork the repository.
+2. Create a new branch (git checkout -b feature-branch).
+3. Make your changes.
+4. Commit your changes (git commit -m 'Add new feature').
+5. Push to the branch (git push origin feature-branch).
+6. Open a Pull Request.
+
+## Learning Journey
+
+This project represents a significant learning journey in full-stack development, encompassing the integration of frontend and backend technologies. It demonstrates proficiency in building responsive and dynamic user interfaces using React and TypeScript, styling with Tailwind CSS, and managing data persistence and API services with Django and PostgreSQL. Additionally, it includes implementing secure authentication using Kinde for Google OAuth, showcasing a comprehensive approach to modern web application development.
+
+## Live Demo
+
+<!-- Explore the live version of this project on [https://airbnb-msgo.onrender.com](https://airbnb-msgo.onrender.com).-->
