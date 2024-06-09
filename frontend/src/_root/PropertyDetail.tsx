@@ -38,7 +38,7 @@ const PropertyDetail = () =>  {
 
   const navigate = useNavigate();
   const { getAllCountries, getCountryByValue } = useCountries();
-  const countryLabel = propertyDetail?.address?.country;
+  const countryLabel = propertyDetail?.location?.country;
 
   const allCountries = getAllCountries();
   

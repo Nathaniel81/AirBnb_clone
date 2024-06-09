@@ -21,7 +21,6 @@ interface PropertyProps {
 }
 
 const PropertyCard = ({ property }: PropertyProps) => {
-  console.log(property)
   const user = useSelector((state: RootState) => state.userInfo);
   const dispatch = useDispatch();
   const navigate = useNavigate();
