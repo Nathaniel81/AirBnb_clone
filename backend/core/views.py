@@ -6,7 +6,7 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Address, Category, Property, Reservation
+from .models import Location, Category, Property, Reservation
 from .serializers import (CategorySerializer, PropertyCreateSerializer,
                           PropertyDetailSerializer, ReservationSerializer)
 
@@ -18,7 +18,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
     Viewset for managing properties.
     """
 
-    queryset = Property.objects.select_related('category', 'host', 'address').all()
+    queryset = Property.objects.select_related('category', 'host', 'location').all()
     permission_classes = [AllowAnonymousGetPermission]
 
     def get_authenticators(self):
@@ -42,7 +42,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
         if category:
             queryset = queryset.filter(category__name=category)
         if country:
-            queryset = queryset.filter(address__country=country)
+            queryset = queryset.filter(location__country=country)
         if guests:
             queryset = queryset.filter(guests=guests)
         if rooms:
@@ -60,14 +60,14 @@ class PropertyViewSet(viewsets.ModelViewSet):
         data = request.data.copy()
 
         details = data.pop('details', None)
-        address = data.pop('address', None)
+        location = data.pop('location', None)
         category_id = data.pop('category', None)
 
-        address_obj = Address.objects.create(
-            country=address.get('country'), 
-            continent=address.get('continent')
+        new_location = Location.objects.create(
+            country=location.get('country'), 
+            continent=location.get('continent')
         )
-        address_obj.save()
+        new_location.save()
 
         if details:
             data.update({
@@ -79,7 +79,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
                 'bedrooms': details.get('rooms'),
                 'bathrooms': details.get('bathrooms'),
                 'photo': details.get('fileUrl'),
-                'address': address_obj.id,
+                'location': new_location.id,
             })
 
         validated_data = data.copy()

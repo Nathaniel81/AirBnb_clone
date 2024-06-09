@@ -15,7 +15,7 @@ const MyProperties = () => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
    const user = useSelector((state: RootState) => state.userInfo);
-   const myProperties = user?.myProperties;
+   const myProperties = user?.myProperties ?? [];
 
    useEffect(() => {
     if (!user) {
@@ -36,8 +36,8 @@ const MyProperties = () => {
 
       {myProperties?.length === 0 ? (
         <NoItem
-          description="Please list a home on airbnb so that you can see it right here"
-          title="Your dont have any Homes listed"
+          description="You haven't listed any homes yet. Once you do, they'll appear right here!"
+          title="You don't have any homes listed yet"
         />
       ) : (
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 grid-cols-1 gap-8 mt-8">

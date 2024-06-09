@@ -35,7 +35,7 @@ const PropertyCard = ({ property }: PropertyProps) => {
   } = useUpdateFavorites();
   const isError = error as AxiosError;
   
-  const countryLabel = property?.address?.country;
+  const countryLabel = property?.location?.country;
   
   const { getAllCountries, getCountryByValue } = useCountries();
   const allCountries = getAllCountries();

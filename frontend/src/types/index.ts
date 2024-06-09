@@ -1,4 +1,4 @@
-export interface IAddress {
+export interface ILocation {
   id: string;
   continent: string;
   country: string;
@@ -27,7 +27,7 @@ export interface IProperty {
   bathrooms: string;
   rooms: string;
   bedrooms: string;
-  address: IAddress;
+  location: ILocation;
   category: ICategory;
   host: IUser
 }
@@ -40,6 +40,7 @@ export interface IUser {
   picture: string;
   favorites: IProperty[];
   myProperties: IProperty[];
+  myReservations: IProperty[];
 }
 
 interface IDetails {
@@ -52,7 +53,7 @@ interface IDetails {
   fileUrl: string | null;
 }
   
-export interface IAddressPayload {
+export interface ILocationPayload {
   value: string;
   label: string;
   region: string;
@@ -61,7 +62,7 @@ export interface IAddressPayload {
 export interface IPropertyPayLoad {
   category: string | null;
   details: IDetails | null;
-  address: IAddressPayload | null;
+  location: ILocationPayload | null;
 }
 
 export interface IFavoritePayLoad {
@@ -90,5 +91,5 @@ export interface RootState {
   userInfo: IUser | null;
   category: string | null;
   details: IDetails | null;
-  address: IAddress | null;
+  location: ILocation | null;
 }

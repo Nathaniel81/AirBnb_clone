@@ -49,13 +49,17 @@ const Filter = () => {
               } flex flex-col gap-y-3 items-center`}
             >
               <div className="relative w-6 h-6">
-                <img
-                  src={item.picture_url}
-                  alt="Category image"
-                  className="w-6 h-6"
-                  width={24}
-                  height={24}
-                />
+                {item.picture_url ? (
+                  <img
+                    src={item.picture_url}
+                    alt="Category image"
+                    className="w-6 h-6"
+                    width={24}
+                    height={24}
+                  />
+                ) : (
+                  <Skeleton className="w-6 h-6" />
+                )}
               </div>
               <p className="text-xs font-medium">{item.title}</p>
             </Link>

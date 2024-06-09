@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useCreateListing } from "@/lib/react-query/queries";
-import { resetAddress, resetCategory, resetDetails } from "@/redux/state";
+import { resetLocation, resetCategory, resetDetails } from "@/redux/state";
 import { AppDispatch, RootState } from "@/redux/store";
 import { IPropertyPayLoad } from "@/types";
 import { Loader2 } from "lucide-react";
@@ -13,7 +13,7 @@ import { useToast } from "./ui/use-toast";
 const CreationBottomBar = ({ step }: {step: number}) => {
   const category = useSelector((state: RootState) => state.category);
   const details = useSelector((state: RootState) => state.details);
-  const address = useSelector((state: RootState) => state.address);
+  const location = useSelector((state: RootState) => state.location);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { toast } = useToast();
@@ -60,18 +60,18 @@ const CreationBottomBar = ({ step }: {step: number}) => {
   
       case 2:
         if (details?.title && details?.price && details.description && details.fileUrl) {
-          navigate('/create/address');
+          navigate('/create/location');
         } else {
           showToast('Incomplete details', 'Please fill in all the required fields.');
         }
         break;
   
       case 3:
-        if (address) {
+        if (location) {
           const payload: IPropertyPayLoad = {
             category,
             details,
-            address,
+            location,
           };
           createListing(payload);
         } else {
@@ -87,7 +87,7 @@ const CreationBottomBar = ({ step }: {step: number}) => {
   
  
   const handleCancel = () => {
-    dispatch(resetAddress());
+    dispatch(resetLocation());
     dispatch(resetCategory());
     dispatch(resetDetails());
   }

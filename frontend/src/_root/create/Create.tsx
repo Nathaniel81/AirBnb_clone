@@ -2,7 +2,7 @@ import CreationBottomBar from "@/components/CreationBottomBar";
 import { Card, CardHeader } from "@/components/ui/card";
 // import { categoryItems } from "@/constants";
 import { useGetCategories } from "@/lib/react-query/queries";
-import { resetAddress, resetCategory, resetDetails, setCategory } from "@/redux/state";
+import { resetLocation, resetCategory, resetDetails, setCategory } from "@/redux/state";
 import { AppDispatch } from "@/redux/store";
 import { ICategory } from "@/types";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ const Create = () => {
     );
 
     useEffect(() => {
-      dispatch(resetAddress());
+      dispatch(resetLocation());
       dispatch(resetCategory());
       dispatch(resetDetails());
       //eslint-disable-next-line

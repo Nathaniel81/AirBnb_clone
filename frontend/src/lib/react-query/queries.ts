@@ -95,7 +95,7 @@ export const useGetPropertyDetail = (id: string) => {
 };
 
 const getUserProperties = async () => {
-  const response = await axios.get(`/api/auth/properties/`);
+  const response = await axios.get(`/api/user/properties/`);
   return response.data;
 };
 export const useGetUserProperties = () => {
@@ -131,7 +131,7 @@ export const useGetReservations = (property_id: string) => {
 };
 
 const getMyReservations = async () => {
-  const response = await axios.get(`/api/auth/reservations`,);
+  const response = await axios.get(`/api/user/reservations`,);
   return response.data;
 };
 export const useGetMyReservations = () => {

@@ -14,7 +14,7 @@ export const initialState: RootState = {
     bathrooms: 0,
     fileUrl: null,
   },
-  address: null,
+  location: null,
 }
 
 export const appSlice = createSlice({
@@ -34,6 +34,9 @@ export const appSlice = createSlice({
     setMyProperties: (state, action) => {
       if (state.userInfo) state.userInfo.myProperties = action.payload
     },
+    setMyReservations: (state, action) => {
+      if (state.userInfo) state.userInfo.myReservations = action.payload
+    },
 
     //Property creation payloads
     setCategory: (state, action) => {
@@ -42,8 +45,8 @@ export const appSlice = createSlice({
     resetCategory: (state) => {
       state.category = null;
     },
-    setAddress: (state, action) => {
-      state.address = action.payload;
+    setLocation: (state, action) => {
+      state.location = action.payload;
     },
     setTitle: (state, action) => {
       if (state.details) state.details.title = action.payload;
@@ -69,8 +72,8 @@ export const appSlice = createSlice({
     resetDetails: (state) => {
       state.details = initialState.details;
     },
-    resetAddress: (state) => {
-      state.address = null;
+    resetLocation: (state) => {
+      state.location = null;
     },
 
     resetState: (state) => {
@@ -84,6 +87,7 @@ export const {
   resetUser,
   setFavorites,
   setMyProperties,
+  setMyReservations,
   setCategory,
   setTitle,
   setFile,
@@ -91,9 +95,9 @@ export const {
   setPrice,
   setGuests,
   setBathrooms,
-  setAddress,
+  setLocation,
   setDescription,
-  resetAddress,
+  resetLocation,
   resetDetails,
   resetCategory,
   resetState

@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
-import { setAddress } from '@/redux/state';
+import { setLocation } from '@/redux/state';
 import { useDispatch } from 'react-redux';
 import { getFlagUrl } from '@/lib/utils';
 
@@ -26,7 +26,7 @@ const Country = () => {
     setLocationValue(value);
     const selectedCountry = getCountryByValue(value);
     if (selectedCountry) {
-      dispatch(setAddress({
+      dispatch(setLocation({
         country: selectedCountry.label,
         continent: selectedCountry.region,
       }));

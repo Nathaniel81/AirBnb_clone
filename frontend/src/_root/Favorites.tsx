@@ -15,7 +15,7 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.userInfo);
-  const favorites = user?.favorites;
+  const favorites = user?.favorites ?? [];
 
   useEffect(() => {
     if (!user) {
@@ -37,8 +37,8 @@ const Favorites = () => {
 
       {favorites?.length === 0 ? (
         <NoItem
-          title="You don't have any favorites"
-          description="Please add favorites to see them right here..."
+          title="No favorites yet"
+          description="Add favorites to see them here!"
         />
       ) : (
         <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 grid-cols-1 gap-8 mt-8">

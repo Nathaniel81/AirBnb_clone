@@ -12,7 +12,7 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class Address(models.Model):
+class Location(models.Model):
     continent = models.CharField(max_length=100)
     country = models.CharField(max_length=100)
     province = models.CharField(max_length=100, null=True, blank=True)
@@ -31,7 +31,7 @@ class Property(models.Model):
     bathrooms = models.PositiveSmallIntegerField(default=0)
     photo = models.URLField(max_length=200, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True)
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -155,14 +155,13 @@ class UserFavoritesView(APIView):
         user = request.user
         if not user or user.is_anonymous:
             return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
-        properties = user.favorites.prefetch_related('category', 'host', 'address').all()
+        properties = user.favorites.prefetch_related('category', 'host', 'location').all()
         serializer = PropertyDetailSerializer(properties, many=True)
         return Response({'favorites': serializer.data}, status=status.HTTP_200_OK)
 
     def patch(self, request):
         user = request.user
         property_id = request.data.get('property_id')
-        print(property_id)
 
         if not property_id:
             return Response({'error': 'Property id is not provided'}, status=status.HTTP_400_BAD_REQUEST)
@@ -170,7 +169,7 @@ class UserFavoritesView(APIView):
             return Response({'error': 'Authentication required'}, status=status.HTTP_401_UNAUTHORIZED)
         
         try:
-            property = Property.objects.select_related('category', 'host', 'address').get(id=property_id)
+            property = Property.objects.select_related('category', 'host', 'location').get(id=property_id)
         except Property.DoesNotExist:
             return Response({'error': 'Property not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -182,10 +181,10 @@ class UserFavoritesView(APIView):
             action = 'added to'
         
         serializer = PropertyDetailSerializer(
-            user.favorites.prefetch_related('category', 'host', 'address').all(), many=True)
+            user.favorites.prefetch_related('category', 'host', 'location').all(), many=True)
 
         return Response({
-            'message': f'Property {action} wish list',
+            'message': f'Property {action} favorites',
             'favorites': serializer.data
         }, status=status.HTTP_200_OK)
 
@@ -238,7 +237,7 @@ class UserPropertiesList(generics.ListAPIView):
     Lists properties owned by the authenticated user.
 
     Retrieves a queryset of properties associated with the user, including related
-    data such as category, address, and host information.
+    data such as category, location, and host information.
     """
 
     authentication_classes = [CustomAuthentication]
@@ -247,7 +246,7 @@ class UserPropertiesList(generics.ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return Property.objects.select_related('category', 'address', 'host').filter(host=user)
+        return Property.objects.select_related('category', 'location', 'host').filter(host=user)
 
 class UserReservationsAPIView(APIView):
     """
