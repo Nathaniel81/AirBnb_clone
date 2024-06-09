@@ -46,5 +46,5 @@ def decode_jwt(token):
     
     # Allow 60 seconds of leeway for clock skew
     decoded = jwt.decode(token, key=key, 
-            audience=settings.CLIENT_ID, algorithms=['RS256'], leeway=60)
+            audience=settings.KINDE_CLIENT_ID, algorithms=['RS256'], leeway=60)
     return decoded
