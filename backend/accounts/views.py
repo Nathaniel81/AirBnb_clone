@@ -42,8 +42,8 @@ def login(request):
     """
 
     oauth_domain = settings.KINDE_DOMAIN
-    client_id = settings.CLIENT_ID
-    redirect_uri = settings.REDIRECT_URI
+    client_id = settings.KINDE_CLIENT_ID
+    redirect_uri = settings.KINDE_REDIRECT_URI
     scope = "openid profile email"
     state = "abcdefgh"
 
@@ -74,10 +74,10 @@ class KindeCallbackView(APIView):
         code = request.GET.get('code')
         token_url = f"https://{settings.KINDE_DOMAIN}/oauth2/token"
         data = {
-            'client_id': settings.CLIENT_ID,
-            'client_secret': settings.CLIENT_SECRET,
+            'client_id': settings.KINDE_CLIENT_ID,
+            'client_secret': settings.KINDE_CLIENT_SECRET,
             'grant_type': 'authorization_code',
-            'redirect_uri': settings.REDIRECT_URI,
+            'redirect_uri': settings.KINDE_REDIRECT_URI,
             'code': code,
         }
 
