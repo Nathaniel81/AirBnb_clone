@@ -1,20 +1,24 @@
-import { useGetCategories, useGetProperties } from "@/lib/react-query/queries";
+import { 
+  useGetCategories, 
+  // useGetProperties,
+  // useGetInfiniteProperties
+} from "@/lib/react-query/queries";
 import { ICategory } from "@/types";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Skeleton } from "./ui/skeleton";
 
 const Filter = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const search = searchParams.get("filter");
+  const search = searchParams.get("category");
   const pathname = location.pathname;
   const { data: categoryItems, isLoading } = useGetCategories();
-  const { refetch: refetchProperties } = useGetProperties(search ?? undefined);
+  // const { refetch: refetchProperties } = useGetInfiniteProperties(search ?? undefined);
 
-  useEffect(() => {
-    refetchProperties();
-  }, [search, refetchProperties]);
+  // useEffect(() => {
+  //   refetchProperties();
+  // }, [search, refetchProperties]);
 
   const createQueryString = (name: string, cat: ICategory) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -41,7 +45,7 @@ const Filter = () => {
         : categoryItems?.map((item: ICategory) => (
             <Link
               key={item.id}
-              to={pathname + "?" + createQueryString("filter", item)}
+              to={pathname + "?" + createQueryString("category", item)}
               className={`${
                 search === item.name
                   ? "border-b-2 border-[#F8395A] pb-2 flex-shrink-0"

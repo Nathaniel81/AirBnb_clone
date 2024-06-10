@@ -1,5 +1,13 @@
-import { IPropertyPayLoad, IReservationPayload, IFavoritePayLoad } from "@/types";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { 
+  IPropertyPayLoad, 
+  IReservationPayload, 
+  IFavoritePayLoad 
+} from "@/types";
+import { 
+  useQuery,
+  useMutation,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import axios from 'axios';
 import { QUERY_KEYS } from "./queryKeys";
 
@@ -48,37 +56,49 @@ export const useGetCategories = () => {
 };
 
 // Property-related queries
-const getProperties = async (
+const getInfiniteProperties = async (
+  pageParam?: number,
   category?: string,
   country?: string,
   guests?: number, 
   bathrooms?: number, 
   rooms?: number
 ) => {
-  const response = await axios.get('/api/properties', {
-      params: { 
-        category,
-        country,
-        guests, 
-        bathrooms, 
-        rooms 
-      },
-    }
-  );
-  return response.data;
-};
-
-export const useGetProperties = (
+  const { data } = await axios.get(`/api/properties/`, {
+    params: {
+      page: pageParam,
+      category,
+      country,
+      guests, 
+      bathrooms, 
+      rooms 
+    },
+  });
+  return data;
+}
+export const useGetInfiniteProperties = (
   category?: string,
   country?: string,
   guests?: number,
   bathrooms?: number,
   rooms?: number,
 ) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_PROPERTIES],
-    queryFn: () => getProperties(category, country, guests, bathrooms, rooms),
-    enabled: !!category || (!!country && !!guests && !!rooms && !!bathrooms)
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.GET_INFINITE_PROPERTIES],
+    queryFn: ({ pageParam = 1 }) => getInfiniteProperties(
+      pageParam, 
+      category, 
+      country, 
+      guests, 
+      bathrooms, 
+      rooms
+    ),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.next) {
+        return pages.length + 1;
+      }
+  },
   });
 };
 

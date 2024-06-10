@@ -75,11 +75,11 @@ const PropertyDetail = () =>  {
 
   const handleSubmit = () => {
     if (!user) {
-      toast({
-          title: 'Login Required',
-          description: 'Please login or create an account.',
-          variant: 'destructive',
-        });
+      return toast({
+              title: 'Login Required',
+              description: 'Please login or create an account.',
+              variant: 'destructive',
+            });
     }
     const bookingForm = {
         property: id,

@@ -55,7 +55,14 @@ const SearchBar = () => {
 
   const handleSearch = () => {
     setOpen(false);
-    navigate('/', { state: { searchParams } });
+    navigate(
+      `/?category=&` +
+      `country=${searchParams.country}&` +
+      `guests=${searchParams.guests}&` +
+      `rooms=${searchParams.rooms}&` +
+      `bathrooms=${searchParams.bathrooms}`
+    )
+    
     setLocationValue('');
     setStep(1);
   }

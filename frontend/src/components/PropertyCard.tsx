@@ -115,9 +115,9 @@ const PropertyCard = ({ property }: PropertyProps) => {
         <p>
           {property.title}
         </p>
-        <p className="text-muted-foreground text-sm line-clamp-2">
+        {/* <p className="text-muted-foreground text-sm line-clamp-2">
           {property.description}
-        </p>
+        </p> */}
         <p className="pt-2 text-muted-foreground">
           <span className="font-medium text-black">${property.price}</span> Night
         </p>
