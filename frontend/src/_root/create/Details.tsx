@@ -113,7 +113,7 @@ const Details = () => {
               type="file"
               ref={fileInput}
               hidden
-              accept=".png,.jpeg,.jpg"
+              accept=".png,.jpeg,.jpg,.webp"
               onChange={handleFileChange}
               className="cursor-pointer"
             />
