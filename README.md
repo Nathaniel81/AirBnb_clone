@@ -1,6 +1,6 @@
 # AirBnb Clone
 
-Welcome to the Airbnb Clone project! This repository houses a web application inspired by Airbnb, built with a modern tech stack to demonstrate a high level of proficiency in full-stack development. This project combines the power of React (with TypeScript), TailwindCSS (integrated with ShadCN UI), Django (with Django REST Framework), and PostgreSQL.
+Welcome to the Airbnb Clone project! This repository houses a web application inspired by Airbnb, built with a modern tech stack to demonstrate a high level of proficiency in full-stack development. This project combines the power of React (with TypeScript), Tailwind CSS (with Shadcn UI), Django (with Django REST Framework), and PostgreSQL.
 
 ## Introduction
 
