@@ -11,6 +11,7 @@ from .serializers import (CategorySerializer, PropertyCreateSerializer,
                           PropertyDetailSerializer, ReservationSerializer)
 
 from rest_framework.permissions import SAFE_METHODS
+from .pagination import PropertyPagination
 
 
 class PropertyViewSet(viewsets.ModelViewSet):
@@ -20,6 +21,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
 
     queryset = Property.objects.select_related('category', 'host', 'location').all()
     permission_classes = [AllowAnonymousGetPermission]
+    pagination_class = PropertyPagination
 
     def get_authenticators(self):
         if self.request.method in SAFE_METHODS:
