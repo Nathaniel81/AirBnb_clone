@@ -89,7 +89,7 @@ export const useGetInfiniteProperties = (
       pageParam, 
       category, 
       country, 
-      guests, 
+      guests,
       bathrooms, 
       rooms
     ),
@@ -126,14 +126,31 @@ export const useGetUserProperties = () => {
 };
 
 export const createListing = async (listing: IPropertyPayLoad) => {
-  const response = await axios.post(`/api/properties/`, listing);
+  const formData = new FormData();
+  formData.append('category', listing.category ?? '');
+  formData.append('details', JSON.stringify(listing.details));
+  formData.append('location', JSON.stringify(listing.location));
+  formData.append('amenities', JSON.stringify(listing.amenities));
+
+  listing.photos.forEach((photo) => {
+    formData.append('photos', photo);
+  });
+
+  const response = await axios.post(`/api/properties/`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
   return response.data;
 };
+
 export const useCreateListing = () => {
   return useMutation({
     mutationFn: (listing: IPropertyPayLoad) => createListing(listing),
   });
 };
+
 
 // Reservation-related queries
 const getReservations = async (property_id: string) => {
