@@ -9,11 +9,12 @@ export const initialState: RootState = {
     title: '',
     description: '',
     price: 0,
-    guests: 0,
-    rooms: 0,
-    bathrooms: 0,
-    fileUrl: null,
+    guests: 1,
+    rooms: 1,
+    bathrooms: 1,
   },
+  amenities: null,
+  photos: null,
   location: null,
 }
 
@@ -66,8 +67,17 @@ export const appSlice = createSlice({
     setBathrooms: (state, action) => {
       if (state.details) state.details.bathrooms = action.payload;
     },
-    setFile: (state, action) => {
-      if (state.details) state.details.fileUrl = action.payload;
+    setPhotos: (state, action) => {
+      state.photos = action.payload;
+    },
+    resetPhotos: (state) => {
+      state.photos = null;
+    },
+    setAmenities: (state, action) => {
+      state.amenities = action.payload;
+    },
+    resetAmenities: (state) => {
+      state.amenities = [];
     },
     resetDetails: (state) => {
       state.details = initialState.details;
@@ -90,13 +100,16 @@ export const {
   setMyReservations,
   setCategory,
   setTitle,
-  setFile,
+  setPhotos,
+  resetPhotos,
   setRooms,
   setPrice,
   setGuests,
   setBathrooms,
+  setAmenities,
   setLocation,
   setDescription,
+  resetAmenities,
   resetLocation,
   resetDetails,
   resetCategory,

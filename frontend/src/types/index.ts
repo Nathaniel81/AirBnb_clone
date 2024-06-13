@@ -17,6 +17,11 @@ export interface ICategory {
   description: string;
 }
 
+export interface IImage {
+  id: number;
+  image_url: string;
+}
+
 export interface IProperty {
   id: number;
   title: string;
@@ -27,6 +32,7 @@ export interface IProperty {
   bathrooms: string;
   rooms: string;
   bedrooms: string;
+  images: IImage[];
   location: ILocation;
   category: ICategory;
   host: IUser
@@ -50,7 +56,6 @@ interface IDetails {
   guests: number;
   rooms: number;
   bathrooms: number;
-  fileUrl: string | null;
 }
   
 export interface ILocationPayload {
@@ -63,6 +68,8 @@ export interface IPropertyPayLoad {
   category: string | null;
   details: IDetails | null;
   location: ILocationPayload | null;
+  amenities: string[] | null;
+  photos: File[];
 }
 
 export interface IFavoritePayLoad {
@@ -78,6 +85,7 @@ export interface IReservationPayload {
   startDate: string | undefined;
   endDate: string | undefined;
   property: string | undefined;
+  total_price: number | undefined;
 }
 
 export interface ISearchParam {
@@ -87,9 +95,18 @@ export interface ISearchParam {
   bathrooms?: number
 }
 
+export interface IAmenities {
+  id: number,
+  name: string,
+  icon: JSX.Element,
+  description: string
+}
+
 export interface RootState {
   userInfo: IUser | null;
   category: string | null;
   details: IDetails | null;
+  amenities: string[] | null;
+  photos: string[] | null;
   location: ILocation | null;
 }
