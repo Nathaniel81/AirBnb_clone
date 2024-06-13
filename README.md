@@ -76,7 +76,7 @@ Ensure you have the following installed on your system:
   
 6. **Configure Kinde for Google authentication**:
    
-   Follow Kinde's documentation to set up your Google OAuth credentials and configure the settings in your application.
+   Follow [Kinde's documentation](https://docs.kinde.com/) to set up your Google OAuth credentials and configure the settings in your application.
 
 7. **Start the development server**:
 
