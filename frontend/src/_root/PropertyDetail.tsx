@@ -1,6 +1,7 @@
+import AmenityShowcase from "@/components/AmenityShowcase";
+import { BookingCard } from "@/components/BookingCard";
 import CategoryShowcase from "@/components/CategoryShowcase";
 import PropertyPageloading from "@/components/PropertyPageloading";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from "@/components/ui/use-toast";
@@ -10,16 +11,18 @@ import {
   useGetPropertyDetail,
   useGetReservations
 } from "@/lib/react-query/queries";
+import { getFlagUrl } from "@/lib/utils";
 import { RootState } from "@/redux/store";
+import { IImage } from "@/types";
 import { eachDayOfInterval, format } from "date-fns";
-import { Loader2 } from "lucide-react";
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import { BsFillGrid3X3GapFill } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getFlagUrl } from "@/lib/utils";
+
 
 const LazyMap = lazy(() => import('../components/Map'));
 
@@ -55,8 +58,20 @@ const PropertyDetail = () =>  {
     },
   ]);
 
+  const endDate = new Date(dateRange[0].endDate);
+  const startDate = new Date(dateRange[0].startDate);
+
   const start = format(new Date(dateRange[0].startDate), 'yyyy-MM-dd');
   const end = format(new Date(dateRange[0].endDate), 'yyyy-MM-dd');
+
+  const endDateProps = format(new Date(dateRange[0].endDate), 'MM/dd/yyyy');
+  const startDateProps = format(new Date(dateRange[0].startDate), 'MM/dd/yyyy');
+
+  const dayCount = Math.round((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) + 1);
+  const pricePerNight = (propertyDetail?.price * dayCount);
+  const easebnbFee = 0.16 * pricePerNight;
+  const totalPrice = pricePerNight + easebnbFee;
+  
 
   let disabledDates: Date[] = [];
   //eslint-disable-next-line
@@ -84,10 +99,15 @@ const PropertyDetail = () =>  {
     const bookingForm = {
         property: id,
         startDate: start,
-        endDate: end
+        endDate: end,
+        total_price: totalPrice
     }
     createReservation(bookingForm);
   }
+
+  const handleShowAllPhotos = () => {
+    navigate(`/property/${propertyDetail.id}/photos`);
+  };
 
   useEffect(() => {
     if (isError){
@@ -114,14 +134,37 @@ const PropertyDetail = () =>  {
   }
 
   return (
-    <div className="w-full lg:w-3/4 mx-auto mt-10 mb-12 px-4 lg:px-0">
-      <h1 className="font-medium text-2xl mb-5">{propertyDetail?.title}</h1>
-      <div className="relative h-64 md:h-96 lg:h-[550px]">
-        <img
-          alt="Property Image"
-          src={propertyDetail?.photo}
-          className="rounded-lg h-full object-cover w-full"
-        />
+    <div className="w-full mx-auto mt-10 mb-12 px-4 lg:px-0">
+      <div className="flex justify-between mt-4">
+        <h1 className="font-medium text-2xl mb-5">{propertyDetail?.title}</h1>
+        {/* <div className="flex justify-between items-center space-x-4">
+          <FaShareAlt className="text-xl cursor-pointer" />
+          <FaHeart className="text-xl cursor-pointer" />
+        </div> */}
+      </div>
+      <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 md:gap-2 gap-y-2">
+        <div className="col-span-2 row-span-2">
+          <img
+            src={propertyDetail?.images[0]?.image_url}
+            alt="Property Image"
+            className="rounded-lg h-full object-cover w-full"
+          />
+        </div>
+        {propertyDetail?.images?.slice(1, 5).map((image: IImage, index: number) => (
+          <div key={index}>
+            <img
+              src={image.image_url}
+              alt={`Property Image ${index + 2}`}
+              className="rounded-lg h-full object-cover w-full"
+            />
+          </div>
+        ))}
+        <button
+          onClick={handleShowAllPhotos}
+          className="absolute bottom-2 right-6 bg-white text-black rounded-lg py-2 px-4 shadow-md flex items-center space-x-2">
+          <span className="grid-icon"><BsFillGrid3X3GapFill /></span>
+          <span>Show all photos</span>
+        </button>
       </div>
 
       <div className="md:flex justify-between gap-x-8 lg:gap-x-24 mt-8">
@@ -165,6 +208,10 @@ const PropertyDetail = () =>  {
 
           <Separator className="my-7" />
 
+          <AmenityShowcase amenities={propertyDetail?.amenities} />
+
+          <Separator className="my-7" />
+
           <p className="text-muted-foreground">{propertyDetail?.description}</p>
 
           <Separator className="my-7" />
@@ -173,36 +220,39 @@ const PropertyDetail = () =>  {
             <LazyMap locationValue={country?.value as string} />
           </Suspense>
         </div>
-        <div className="w-full md:w-auto mt-8 md:mt-0">
-          <input
-            type="hidden"
-            name="startDate"
-            value={dateRange[0].startDate.toISOString()}
+        <div>
+          <div className="w-full md:w-auto mt-8 md:mt-0">
+            <input
+              type="hidden"
+              name="startDate"
+              value={dateRange[0].startDate.toISOString()}
+            />
+            <input
+              type="hidden"
+              name="endDate"
+              value={dateRange[0].endDate.toISOString()}
+            />
+            <DateRange
+              date={new Date()}
+              showDateDisplay={false}
+              rangeColors={["#FF5A5F"]}
+              ranges={dateRange}
+              onChange={handleDateChange}
+              minDate={new Date()}
+              direction="vertical"
+              disabledDates={disabledDates}
+            />
+          </div>
+          <BookingCard 
+            price={parseFloat(propertyDetail?.price)}
+            start={startDateProps}
+            end={endDateProps}
+            dayCount={dayCount}
+            serviceFee={easebnbFee}
+            totalPrice={totalPrice}
+            isReservationLoading={isReservationLoading}
+            handleSubmit={handleSubmit}
           />
-          <input
-            type="hidden"
-            name="endDate"
-            value={dateRange[0].endDate.toISOString()}
-          />
-          <DateRange
-            date={new Date()}
-            showDateDisplay={false}
-            rangeColors={["#FF5A5F"]}
-            ranges={dateRange}
-            onChange={handleDateChange}
-            minDate={new Date()}
-            direction="vertical"
-            disabledDates={disabledDates}
-          />
-          {isReservationLoading ? (
-            <Button className="w-full mt-4" disabled>
-              <Loader2 className="w-4 h-4 animate-spin mr-2" /> Please wait...
-            </Button>
-          ) : (
-            <Button className="w-full mt-4" onClick={handleSubmit}>
-              Make a Reservation!
-            </Button>
-          )}
         </div>
       </div>
     </div>

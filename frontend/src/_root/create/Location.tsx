@@ -74,7 +74,7 @@ const Location = () => {
         </Suspense>
       </div>
 
-      <CreationBottomBar step={3} />
+      <CreationBottomBar step={4} />
     </>
   );
 }

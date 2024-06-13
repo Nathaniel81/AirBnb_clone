@@ -33,7 +33,7 @@ const Create = () => {
     <div className='mt-10'>
       <div className="md:w-3/5 w-full mx-auto">
         <h2 className="text-3xl font-semibold tracking-tight transition-colors">
-          Which of these best describe your Home?
+        Which of these categories best describes your place?
         </h2>
       </div>
 
