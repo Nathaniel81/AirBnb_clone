@@ -135,7 +135,7 @@ export const createListing = async (listing: IPropertyPayLoad) => {
   listing.photos.forEach((photo) => {
     formData.append('photos', photo);
   });
-
+ 
   const response = await axios.post(`/api/properties/`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
