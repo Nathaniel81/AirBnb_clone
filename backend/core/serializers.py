@@ -1,8 +1,27 @@
-from rest_framework import serializers
-
-from .models import Location, Category, Property, Review, Reservation
-from accounts.serializers import UserSerializer
 from accounts.models import User
+from accounts.serializers import UserSerializer
+from rest_framework import serializers
+from cloudinary.utils import cloudinary_url
+
+
+from .models import (
+    Category, 
+    ListingImage,
+    Location, 
+    Property,
+    Reservation, 
+    Review
+)
+
+class ImageSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ListingImage
+        fields = ['id', 'image_url']
+
+    def get_image_url(self, obj):
+        return cloudinary_url(obj.image.public_id)[0]
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,21 +33,30 @@ class PropertyCreateSerializer(serializers.ModelSerializer):
         model = Property
         fields = '__all__'
 
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
 class PropertyDetailSerializer(serializers.ModelSerializer):
     host = UserSerializer()
+    images = ImageSerializer(many=True)
     class Meta:
         model = Property
         fields = '__all__'
         depth = 1
 
+class PropertyListSerializer(serializers.ModelSerializer):
+    images = ImageSerializer(many=True)
+    location = LocationSerializer()
+
+    class Meta:
+        model = Property
+        fields = ['id', 'title', 'price', 'location', 'images', 'photo', 'host']
+
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = '__all__'
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
         fields = '__all__'
 
 class ReservationSerializer(serializers.ModelSerializer):
