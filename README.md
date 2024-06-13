@@ -1,14 +1,14 @@
-# AirBnb Clone
+# Easebnb
 
-Welcome to the Airbnb Clone project! This repository houses a web application inspired by Airbnb, built with a modern tech stack to demonstrate a high level of proficiency in full-stack development. This project combines the power of React (with TypeScript), Tailwind CSS (with Shadcn UI), Django (with Django REST Framework), and PostgreSQL.
+Welcome to the easebnb! This repository houses a web application inspired by Airbnb, built with a modern tech stack to demonstrate a high level of proficiency in full-stack development. This project combines the power of React (with TypeScript), Tailwind CSS (with Shadcn UI), Django (with Django REST Framework), and PostgreSQL.
 
 ## Introduction
 
-This Airbnb Clone aims to replicate the core functionalities of the popular accommodation rental platform, Airbnb. The project serves as a comprehensive example of a full-stack application, showcasing the integration of a front-end built with React and TypeScript and a back-end developed with Django REST Framework, all powered by a robust PostgreSQL database.
+Easebnb aims to replicate the core functionalities of the popular accommodation rental platform, Airbnb. The project serves as a comprehensive example of a full-stack application, showcasing the integration of a front-end built with React and TypeScript and a back-end developed with Django REST Framework, all powered by a robust PostgreSQL database.
 
 ## Features
 
-This Airbnb Clone comes packed with a variety of features to provide a seamless user experience:
+Easebnb comes packed with a variety of features to provide a seamless user experience:
 
 * __User Authentication__: Secure login and registration system, including authentication with Google accounts via Kinde.
 * __Property Listings__: Users can list, browse, search, and view property listings.
@@ -49,7 +49,7 @@ Ensure you have the following installed on your system:
 1. **Clone the repository**:
    
    ```
-   git clone https://github.com/Nathaniel81/Airbnb_clone.git; cd Airbnb_clone
+   git clone https://github.com/Nathaniel81/easebnb.git; cd easebnb
    ```
 
 2. **Install frontend dependencies:**:
@@ -94,7 +94,7 @@ Ensure you have the following installed on your system:
   
 ## Usage
 
-Once the servers are running, you can access the application by navigating to `http://localhost:5173` in your web browser. Register a new user, browse listings, make bookings, and explore the features of this Airbnb Clone. You can also use your Google account to log in via Kinde.
+Once the servers are running, you can access the application by navigating to `http://localhost:5173` in your web browser. Register a new user, browse listings, make bookings, and explore the features of Easebnb. You can also use your Google account to log in via Kinde.
 
 ## Contributing
 
