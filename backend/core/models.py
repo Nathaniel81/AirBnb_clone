@@ -30,19 +30,25 @@ class Property(models.Model):
     bedrooms = models.PositiveSmallIntegerField(default=0)
     bathrooms = models.PositiveSmallIntegerField(default=0)
     photo = models.URLField(max_length=200, null=True)
+    amenities = models.JSONField(default=list)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     def __str__(self):
         return self.title
+class ListingImage(models.Model):
+    property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
+    image = CloudinaryField('image', null=True, blank=True)
+    def __str__(self):
+        return f"image of {self.property.title}"
 
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     startDate = models.DateTimeField()
     endDate = models.DateTimeField()
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
     createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
