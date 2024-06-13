@@ -9,10 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "./ui/use-toast";
 
+interface creationBarProps {
+  step: number;
+  photos?: File[];
+}
 
-const CreationBottomBar = ({ step }: {step: number}) => {
+const CreationBottomBar = ({ step, photos }: creationBarProps) => {
   const category = useSelector((state: RootState) => state.category);
   const details = useSelector((state: RootState) => state.details);
+  const amenities = useSelector((state: RootState) => state.amenities);
   const location = useSelector((state: RootState) => state.location);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
@@ -59,23 +64,42 @@ const CreationBottomBar = ({ step }: {step: number}) => {
         break;
   
       case 2:
-        if (details?.title && details?.price && details.description && details.fileUrl) {
-          navigate('/create/location');
+        if (details?.title && details?.price && details.description) {
+          navigate('/create/amenities');
         } else {
           showToast('Incomplete details', 'Please fill in all the required fields.');
         }
         break;
-  
+
       case 3:
+        if (amenities) {
+          navigate('/create/location')
+        } else {
+          showToast('Amenity required', 'Please fill in all the required fields.');
+        }
+        break;
+
+      case 4:
         if (location) {
+          navigate('/create/photos')
+        } else {
+          showToast('Country required', 'Please provide a country to proceed.');
+        }
+        break;
+  
+      case 5:
+        if (photos) {
+          console.log(amenities)
           const payload: IPropertyPayLoad = {
             category,
             details,
+            amenities,
             location,
+            photos,
           };
           createListing(payload);
         } else {
-          showToast('Country required', 'Please provide a country to proceed.');
+          showToast('Photos required', 'Please provide a country to proceed.');
         }
         break;
   
