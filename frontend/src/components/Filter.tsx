@@ -1,10 +1,7 @@
 import { 
   useGetCategories, 
-  // useGetProperties,
-  // useGetInfiniteProperties
 } from "@/lib/react-query/queries";
 import { ICategory } from "@/types";
-// import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Skeleton } from "./ui/skeleton";
 
@@ -14,11 +11,6 @@ const Filter = () => {
   const search = searchParams.get("category");
   const pathname = location.pathname;
   const { data: categoryItems, isLoading } = useGetCategories();
-  // const { refetch: refetchProperties } = useGetInfiniteProperties(search ?? undefined);
-
-  // useEffect(() => {
-  //   refetchProperties();
-  // }, [search, refetchProperties]);
 
   const createQueryString = (name: string, cat: ICategory) => {
     const params = new URLSearchParams(searchParams.toString());

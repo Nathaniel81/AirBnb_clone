@@ -9,7 +9,7 @@ type CounterProps = {
 
 const Counter: React.FC<CounterProps> = ({ value, onChange }) => {
     const increase = () => onChange(value + 1);
-    const decrease = () => onChange(value > 0 ? value - 1 : 0);
+    const decrease = () => onChange(value > 1 ? value - 1 : 1);
   
     return (
       <div className="flex items-center gap-x-4">

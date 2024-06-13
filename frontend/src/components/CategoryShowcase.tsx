@@ -3,7 +3,6 @@ import { categoryItems } from "@/constants";
 
 const CategoryShowcase = ({ categoryName }: { categoryName: string }) => {
   const category = categoryItems.find((item) => item.name === categoryName);
-  console.log(categoryName)
 
   return (
     <div className="flex items-center">

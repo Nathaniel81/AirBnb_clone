@@ -1,4 +1,3 @@
-// import { useGetProperties } from "@/lib/react-query/queries";
 import { Link } from "react-router-dom";
 import { NavImages } from "../../constants";
 import SearchBar from "./SearchBar";
@@ -6,13 +5,10 @@ import UserNav from "./UserNav";
 
 
 const Navbar = () => {
-  // const { refetch } = useGetProperties();
   return (
     <nav className="w-full border-b">
       <div className="flex items-center justify-between py-4">
-        <Link to="/" 
-          // onClick={() => refetch()}
-          >
+        <Link to="/">
           <img
             src={NavImages.Logo} 
             alt="Desktop Logo"
