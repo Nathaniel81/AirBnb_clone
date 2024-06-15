@@ -2,8 +2,6 @@ from accounts.models import User
 from accounts.serializers import UserSerializer
 from rest_framework import serializers
 from cloudinary.utils import cloudinary_url
-
-
 from .models import (
     Category, 
     ListingImage,
@@ -47,12 +45,17 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
         depth = 1
 
 class PropertyListSerializer(serializers.ModelSerializer):
-    images = ImageSerializer(many=True)
+    # images = ImageSerializer(many=True)
+    images = serializers.SerializerMethodField()
     location = LocationSerializer()
 
     class Meta:
         model = Property
         fields = ['id', 'title', 'price', 'location', 'images', 'photo', 'host']
+    
+    def get_images(self, obj):
+        images = obj.images.all()[:5]
+        return ImageSerializer(images, many=True).data
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
