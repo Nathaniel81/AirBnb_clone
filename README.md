@@ -1,4 +1,10 @@
-# Easebnb
+<div align="center">
+<img width="30%" src="./frontend/public/logo.png">
+ 
+# EaseBnb
+</div>
+
+# EaseBnb
 
 Welcome to the easebnb! This repository houses a web application inspired by Airbnb, built with a modern tech stack to demonstrate a high level of proficiency in full-stack development. This project combines the power of React (with TypeScript), Tailwind CSS (with Shadcn UI), Django (with Django REST Framework), and PostgreSQL.
 
