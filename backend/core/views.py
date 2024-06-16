@@ -74,8 +74,8 @@ class PropertyViewSet(viewsets.ModelViewSet):
         data = request.data.copy()
         details = data.pop('details', None)
         location_data = data.pop('location', None)
-        category_id = data.pop('category', None)
-        amenities = data.pop('amenities', None)
+        category_id = data.pop('category', None)[0]
+        amenities = data.pop('amenities', None)[0]
         photos = data.pop('photos', None)
 
         if isinstance(location_data, list) and len(location_data) > 0:
