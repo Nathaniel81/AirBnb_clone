@@ -17,7 +17,7 @@ export default function Map({ locationValue }: { locationValue: string }) {
       key={locationValue} // Key prop added to ensure re-render on locationValue change
       scrollWheelZoom={false}
       className="h-[50vh] rounded-lg relative z-0"
-      center={latLng ?? [52.505, -0.09]}
+      center={latLng ?? [9.145, 40.489673]}
       zoom={5}
     >
       <TileLayer
