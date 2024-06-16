@@ -71,7 +71,8 @@ const PropertyCard = ({ property }: PropertyProps) => {
 
   const iconStyle = isPending
   ? { color: 'gray', opacity: 0.5 }
-  : { color: 'red', opacity: 1.0 };
+  : isLiked ? 
+  { color: 'red' } : { color: 'white' };
 
   const handleClick = () => {
     if (!user){
@@ -112,6 +113,7 @@ const PropertyCard = ({ property }: PropertyProps) => {
             <img
               key={index}
               src={image.image_url}
+              loading="lazy"
               alt={`Property image ${index + 1}`}
               className="absolute top-0 left-0 h-full w-full object-cover rounded-lg"
               style={{ left: `${index * 100}%` }}
@@ -149,7 +151,9 @@ const PropertyCard = ({ property }: PropertyProps) => {
           <img 
             src={getFlagUrl(countryByLabel?.value ?? '')}
             alt={country?.flag}
-            width={25} 
+            width={25}
+            height={25}
+            loading="lazy"
           />
           <span className="ml-2">
             {country?.label} / {country?.region}

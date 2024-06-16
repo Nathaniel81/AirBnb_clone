@@ -52,6 +52,7 @@ export const useGetCategories = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CATEGORIES],
     queryFn: () => getCategories(),
+    staleTime: Infinity,
   });
 };
 
@@ -62,7 +63,7 @@ const getInfiniteProperties = async (
   country?: string,
   guests?: number, 
   bathrooms?: number, 
-  rooms?: number
+  rooms?: number,
 ) => {
   const { data } = await axios.get(`/api/properties/`, {
     params: {
@@ -82,6 +83,7 @@ export const useGetInfiniteProperties = (
   guests?: number,
   bathrooms?: number,
   rooms?: number,
+  enabled = true
 ) => {
   return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_PROPERTIES],
@@ -99,6 +101,7 @@ export const useGetInfiniteProperties = (
         return pages.length + 1;
       }
   },
+  enabled
   });
 };
 

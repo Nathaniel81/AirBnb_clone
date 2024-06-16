@@ -1,6 +1,4 @@
-import { 
-  useGetCategories, 
-} from "@/lib/react-query/queries";
+import { useGetCategories } from "@/lib/react-query/queries";
 import { ICategory } from "@/types";
 import { Link, useLocation } from "react-router-dom";
 import { Skeleton } from "./ui/skeleton";
@@ -31,7 +29,7 @@ const Filter = () => {
               className="flex flex-col gap-y-1 items-center flex-shrink-0"
             >
               <Skeleton className="w-7 h-7" />
-              <Skeleton className="w-12 h-2" />
+              <Skeleton className="w-16 h-2" />
             </div>
           ))
         : categoryItems?.map((item: ICategory) => (
@@ -41,7 +39,7 @@ const Filter = () => {
               className={`${
                 search === item.name
                   ? "border-b-2 border-[#F8395A] pb-2 flex-shrink-0"
-                  : "opacity-70 flex-shrink-0"
+                  : "border-b-2 border-transparent pb-2 opacity-70 hover:border-b-2 hover:border-[#f8395970] flex-shrink-0"
               } flex flex-col gap-y-3 items-center`}
             >
               <div className="relative w-6 h-6">
