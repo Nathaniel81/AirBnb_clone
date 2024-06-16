@@ -5,6 +5,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import permissions, status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.db import transaction
 
 from .models import Location, Category, Property, Reservation, ListingImage
 from .serializers import (
@@ -73,8 +74,8 @@ class PropertyViewSet(viewsets.ModelViewSet):
         data = request.data.copy()
         details = data.pop('details', None)
         location_data = data.pop('location', None)
-        category_id = data.pop('category', None)[0]
-        amenities = data.pop('amenities', None)[0]
+        category_id = data.pop('category', None)
+        amenities = data.pop('amenities', None)
         photos = data.pop('photos', None)
 
         if isinstance(location_data, list) and len(location_data) > 0:
@@ -83,38 +84,42 @@ class PropertyViewSet(viewsets.ModelViewSet):
         if isinstance(details, list) and len(details) > 0:
             details = json.loads(details[0])
 
-        new_location, created = Location.objects.get_or_create(
-            country=location_data.get('country'), 
-            continent=location_data.get('continent')
-        )
-        new_location.save()
+        try:
+            with transaction.atomic():
+                new_location, created = Location.objects.get_or_create(
+                    country=location_data.get('country'), 
+                    continent=location_data.get('continent')
+                )
 
-        if details:
-            data.update({
-                'category': category_id[0],
-                'title': details.get('title'),
-                'description': details.get('description'),
-                'price': details.get('price'),
-                'guests': details.get('guests'),
-                'bedrooms': details.get('rooms'),
-                'bathrooms': details.get('bathrooms'),
-                'location': new_location.id,
-                'amenities': amenities
+                if details:
+                    data.update({
+                        'category': category_id[0],
+                        'title': details.get('title'),
+                        'description': details.get('description'),
+                        'price': details.get('price'),
+                        'guests': details.get('guests'),
+                        'bedrooms': details.get('rooms'),
+                        'bathrooms': details.get('bathrooms'),
+                        'location': new_location.id,
+                        'amenities': amenities
+                    })
 
-            })
+                validated_data = data.copy()
+                validated_data['host'] = user.id
 
-        validated_data = data.copy()
-        validated_data['host'] = user.id
+                serializer = self.get_serializer(data=validated_data)
+                serializer.is_valid(raise_exception=True)
+                property_instance = serializer.save()
 
-        serializer = self.get_serializer(data=validated_data)
-        serializer.is_valid(raise_exception=True)
-        property_instance = serializer.save()
+                if photos:
+                    for photo in photos:
+                        ListingImage.objects.create(property=property_instance, image=photo)
 
-        for photo in photos:
-            ListingImage.objects.create(property=property_instance, image=photo)
-        
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+                headers = self.get_success_headers(serializer.data)
+                return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """

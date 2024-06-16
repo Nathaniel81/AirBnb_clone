@@ -41,7 +41,7 @@ ALLOWED_HOSTS = [
     ]
 
 CORS_ALLOWED_ORIGINS = [
-    "https://easebnb.onrender.com/",
+    "https://easebnb.onrender.com",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
