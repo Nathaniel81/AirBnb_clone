@@ -35,7 +35,7 @@ const UserNav = () => {
   const handleLogin = () => {
     window.location.href = 'https://easebnb.onrender.com/api/user/login/';
   }
-u
+
   const handleSignout = () => {
     signout();
   }
