@@ -113,7 +113,6 @@ const PropertyCard = ({ property }: PropertyProps) => {
             <img
               key={index}
               src={image.image_url}
-              loading="lazy"
               alt={`Property image ${index + 1}`}
               className="absolute top-0 left-0 h-full w-full object-cover rounded-lg"
               style={{ left: `${index * 100}%` }}
