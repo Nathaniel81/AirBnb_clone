@@ -1,7 +1,7 @@
 import AmenityShowcase from "@/components/AmenityShowcase";
 import { BookingCard } from "@/components/BookingCard";
 import CategoryShowcase from "@/components/CategoryShowcase";
-import PropertyPageloading from "@/components/PropertyPageloading";
+import PropertyPageloading from "@/components/loaders/PropertyPageloading";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from "@/components/ui/use-toast";
@@ -15,7 +15,7 @@ import { getFlagUrl } from "@/lib/utils";
 import { RootState } from "@/redux/store";
 import { IImage } from "@/types";
 import { eachDayOfInterval, format } from "date-fns";
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState, useCallback } from 'react';
 import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -30,13 +30,16 @@ const PropertyDetail = () =>  {
   const user= useSelector((state: RootState) => state.userInfo);
   const { toast } = useToast();
   const { id } = useParams();
-  const { data: propertyDetail, isPending: isPropertyLoading } = useGetPropertyDetail(id ?? '');
+  const { 
+    data: propertyDetail, 
+    isPending: isPropertyLoading 
+  } = useGetPropertyDetail(id ?? '');
   const { data: reservations } = useGetReservations(id ?? '');
   const { 
-    mutate: createReservation, 
-    isPending: isReservationLoading, 
-    isError, 
-    isSuccess  
+    mutate: createReservation,
+    isPending: isReservationLoading,
+    isError,
+    isSuccess
   } = useCreateReservation();
 
   const navigate = useNavigate();
@@ -88,31 +91,41 @@ const PropertyDetail = () =>  {
     setDateRange([selection]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (!user) {
       return toast({
-              title: 'Login Required',
-              description: 'Please login or create an account.',
-              variant: 'destructive',
-            });
+        title: 'Login Required',
+        description: 'Please login or create an account.',
+        variant: 'destructive',
+      });
     }
+    
     const bookingForm = {
-        property: id,
-        startDate: start,
-        endDate: end,
-        total_price: totalPrice
-    }
+      property: id,
+      startDate: start,
+      endDate: end,
+      total_price: totalPrice
+    };
+
     createReservation(bookingForm);
-  }
+  //eslint-disable-next-line
+  }, [user, id, start, end, totalPrice]);
 
   const handleShowAllPhotos = () => {
-    navigate(`/property/${propertyDetail.id}/photos`);
+    navigate( `/property/${propertyDetail.id}/photos`, 
+      { 
+        state: { 
+          images: propertyDetail.images 
+        } 
+      }
+    );
   };
+  
 
   useEffect(() => {
     if (isError){
         toast({
-            title: 'Smoething went wrong. Please try again',
+            title: 'Something went wrong. Please try again',
             variant: 'destructive',
           });
     }
@@ -161,7 +174,7 @@ const PropertyDetail = () =>  {
         ))}
         <button
           onClick={handleShowAllPhotos}
-          className="absolute bottom-2 right-6 bg-white text-black rounded-lg py-2 px-4 shadow-md flex items-center space-x-2">
+          className="absolute bottom-2 right-6 bg-white text-black rounded-lg py-2 px-4 shadow-lg hover:bg-slate-300 flex items-center space-x-2">
           <span className="grid-icon"><BsFillGrid3X3GapFill /></span>
           <span>Show all photos</span>
         </button>
@@ -173,7 +186,8 @@ const PropertyDetail = () =>  {
             <img 
               src={getFlagUrl(countryByLabel?.value ?? '')}
               alt={country?.flag}
-              width={27} 
+              width={27}
+              height={27}
             />
             <span className="ml-2">
               {country?.label} / {country?.region}
