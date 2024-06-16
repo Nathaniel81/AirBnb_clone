@@ -1,5 +1,5 @@
 <div align="center">
-<img width="30%" src="./frontend/public/logo.png">
+<img width="10%" src="./frontend/public/logo.png">
  
 # EaseBnb
 </div>
