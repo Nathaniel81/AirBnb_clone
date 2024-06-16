@@ -11,7 +11,7 @@ import { NavImages } from "@/constants";
 import { addUser } from "@/redux/state";
 import { AppDispatch, RootState } from "@/redux/store";
 import axios from 'axios';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   useDispatch,
   useSelector
@@ -20,18 +20,21 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useToast } from "../ui/use-toast";
 import { useSignOutAccount } from "@/lib/react-query/queries";
 import { resetState } from "@/redux/state";
+import { Skeleton } from "../ui/skeleton";
 
 
 const UserNav = () => {
   const user = useSelector((state: RootState) => state.userInfo);
-  const { mutate: signout, isError, isSuccess } = useSignOutAccount();
+  const { mutate: signout, isError, isSuccess, isPending } = useSignOutAccount();
+  const [userLoading, setUserLoading] = useState(false);
   const location = useLocation();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleLogin = () => {
-    window.location.href = 'https://airbnbapi-u931.onrender.com/api/user/login/';
+    // window.location.href = 'https://airbnbapi-u931.onrender.com/api/user/login/';
+    window.location.href = 'http://127.0.0.1:8000/api/user/login/';
   }
 
   const handleSignout = () => {
@@ -44,6 +47,7 @@ const UserNav = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (code) {
+        setUserLoading(true);
         try {
           const response = await axios.get(`/api/user/callback?code=${code}`, {
             withCredentials: true,
@@ -57,6 +61,7 @@ const UserNav = () => {
             variant: 'destructive',
           })
         }
+        setUserLoading(false);
         navigate('/');
       }
     };
@@ -82,14 +87,18 @@ const UserNav = () => {
       <DropdownMenuTrigger>
         <div className="rounded-full border px-2 py-2 lg:px-4 lg:py-2 flex items-center gap-x-3">
           <MenuIcon className="w-6 h-6 lg:w-5 lg:h-5" />
-          <img
-            src={
-              user?.picture ??
-              NavImages.user
-            }
-            alt="Image of the user"
-            className="rounded-full h-8 w-8 hidden lg:block"
-          />
+          {userLoading || isPending ? (
+            <Skeleton className="w-8 h-8 rounded-full hidden lg:block" />
+          ): (
+            <img
+              src={
+                user?.picture ??
+                NavImages.user
+              }
+              alt="Image of the user"
+              className="rounded-full h-8 w-8 hidden lg:block"
+            />
+          )}
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[200px]">
@@ -97,7 +106,7 @@ const UserNav = () => {
           <>
             <DropdownMenuItem asChild>
                 <Link to="/create" className="w-full text-start">
-                  Airbnb your Home
+                  Easebnb your Home
                 </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>

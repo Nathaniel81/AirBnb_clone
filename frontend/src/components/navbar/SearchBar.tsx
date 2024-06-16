@@ -60,7 +60,7 @@ const SearchBar = () => {
       `country=${searchParams.country}&` +
       `guests=${searchParams.guests}&` +
       `rooms=${searchParams.rooms}&` +
-      `bathrooms=${searchParams.bathrooms}`
+      `bathrooms=${searchParams.bathrooms}`,
     )
     
     setLocationValue('');
@@ -86,7 +86,7 @@ const SearchBar = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <div className="rounded-full py-2 px-5 sm:border flex items-center cursor-pointer ml-auto sm:ml-0">
+        <div className="rounded-full hover:shadow-md py-2 px-5 sm:border flex items-center cursor-pointer ml-auto sm:ml-0">
           <div className="hidden sm:flex h-full divide-x font-medium">
             <p className="px-4">Anywhere</p>
             <p className="px-4">Any Week</p>

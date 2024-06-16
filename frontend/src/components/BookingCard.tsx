@@ -64,10 +64,6 @@ export function BookingCard(
           <p>${price.toFixed(2)} x {dayCount} nights</p>
           <p>${(price * dayCount).toFixed(2)}  </p>
         </div>
-          {/* <div className="mt-4 flex justify-between items-center">
-            <p>Cleaning fee</p>
-            <p>$79</p>
-          </div> */}
           <div className="mt-4 flex justify-between items-center">
             <p>Easebnb service fee</p>
             <p>${serviceFee.toFixed(2)}</p>
@@ -76,7 +72,7 @@ export function BookingCard(
         <Separator className="my-7" />
         <div className="flex justify-between items-center">
           <p className="font-medium text-lg">Total</p>
-          <p>${totalPrice.toFixed(2)}</p>
+          <p className="font-medium text-lg">${totalPrice.toFixed(2)}</p>
         </div>
       </CardContent>
       <CardFooter>
