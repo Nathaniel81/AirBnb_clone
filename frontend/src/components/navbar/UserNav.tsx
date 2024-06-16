@@ -33,9 +33,9 @@ const UserNav = () => {
   const { toast } = useToast();
 
   const handleLogin = () => {
-    window.location.href = 'https://airbnbapi-u931.onrender.com/api/user/login/';
+    window.location.href = 'https://easebnb.onrender.com/api/user/login/';
   }
-
+u
   const handleSignout = () => {
     signout();
   }
