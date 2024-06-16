@@ -45,7 +45,6 @@ class PropertyDetailSerializer(serializers.ModelSerializer):
         depth = 1
 
 class PropertyListSerializer(serializers.ModelSerializer):
-    # images = ImageSerializer(many=True)
     images = serializers.SerializerMethodField()
     location = LocationSerializer()
 

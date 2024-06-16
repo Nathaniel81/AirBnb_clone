@@ -33,8 +33,7 @@ const UserNav = () => {
   const { toast } = useToast();
 
   const handleLogin = () => {
-    // window.location.href = 'https://airbnbapi-u931.onrender.com/api/user/login/';
-    window.location.href = 'http://127.0.0.1:8000/api/user/login/';
+    window.location.href = 'https://airbnbapi-u931.onrender.com/api/user/login/';
   }
 
   const handleSignout = () => {

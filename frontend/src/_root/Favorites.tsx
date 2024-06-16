@@ -1,6 +1,6 @@
 import NoItem from "@/components/NoItem";
 import PropertyCard from "@/components/PropertyCard";
-import SkeletonLoading from '@/components/SkeletonLoading';
+import SkeletonLoading from '@/components/loaders/SkeletonLoading';
 import { useGetFavorites } from "@/lib/react-query/queries";
 import { setFavorites } from "@/redux/state";
 import { RootState } from "@/redux/store";

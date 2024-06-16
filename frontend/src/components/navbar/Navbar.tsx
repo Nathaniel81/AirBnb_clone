@@ -9,17 +9,18 @@ const Navbar = () => {
     <nav className="w-full border-b">
       <div className="flex items-center justify-between py-4">
         <Link to="/">
+        <div className="flex justify-between items-center gap-3">
           <img
-            src={NavImages.Logo} 
+            src={NavImages.logo} 
             alt="Desktop Logo"
-            className="w-32 hidden lg:block"
+            className="w-12 h-12"
           />
-
-          <img 
-            src={NavImages.Logo} 
-            alt="Mobile Logo"
-            className="block lg:hidden w-24"
+          <img
+            src={NavImages.logoName} 
+            alt="Desktop Logo"
+            className="w-32 h-9 hidden lg:block"
           />
+        </div>
         </Link>
         
         <SearchBar />

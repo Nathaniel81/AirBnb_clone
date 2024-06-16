@@ -4,7 +4,7 @@ class PropertyPagination(PageNumberPagination):
     """
     Pagination class for properties.
 
-    This pagination class sets the page size to 6 products per page.
+    This pagination class sets the page size to 8 properties per page.
     """
 
     page_size = 8

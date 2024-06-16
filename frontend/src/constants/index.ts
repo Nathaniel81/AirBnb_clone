@@ -1,6 +1,6 @@
 export const NavImages =  {
-    Logo: "../../airbnb-desktop.png",
-    Desktop: "../../airbnb-mobile.webp",
+    logo: "../../logo.png",
+    logoName: "../../logo-2.png",
     user: "../../default-user.jpg"
 }
 

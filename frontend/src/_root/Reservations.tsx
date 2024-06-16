@@ -1,5 +1,5 @@
 import PropertyCard from "@/components/PropertyCard";
-import SkeletonLoading from '@/components/SkeletonLoading';
+import SkeletonLoading from '@/components/loaders/SkeletonLoading';
 import { useGetMyReservations } from "@/lib/react-query/queries";
 import { setMyReservations } from '@/redux/state';
 import { RootState } from "@/redux/store";

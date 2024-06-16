@@ -35,11 +35,13 @@ class Property(models.Model):
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
         return self.title
 class ListingImage(models.Model):
     property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
     image = CloudinaryField('image', null=True, blank=True)
+
     def __str__(self):
         return f"image of {self.property.title}"
 
