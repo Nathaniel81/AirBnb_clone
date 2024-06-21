@@ -129,19 +129,21 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+from emails.tasks import send_email
+
 class ReservationViewsets(viewsets.ModelViewSet):
     """
     Viewset for managing reservations.
     """
 
-    authentication_classes = [CustomAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [CustomAuthentication]
+    # permission_classes = [IsAuthenticated]
     serializer_class = ReservationSerializer
 
-    def get_permissions(self):
-        if self.action == 'list':
-            return [permissions.AllowAny()]
-        return super().get_permissions()
+    # def get_permissions(self):
+    #     if self.action == 'list':
+    #         return [permissions.AllowAny()]
+    #     return super().get_permissions()
 
     def get_queryset(self):
         property_id = self.request.query_params.get('property_id', None)
@@ -150,7 +152,8 @@ class ReservationViewsets(viewsets.ModelViewSet):
         return Response({'error': 'Property required'}, status=status.HTTP_400_BAD_REQUEST)
     
     def create(self, request, *args, **kwargs):
-        user = request.user
+        # user = request.user
+        user = User.objects.get(id=2)
         data = request.data.copy()
 
         if not data.get('property'):
@@ -166,10 +169,10 @@ class ReservationViewsets(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
-        # # Trigger the email task
-        # send_email.delay(
-        #     user_email=request.user.email, 
-        #     property_title=serializer.validated_data['property'].title
-        # )
+        # Trigger the email task
+        send_email.delay(
+            user_email=user.email, 
+            property_title=serializer.validated_data['property'].title
+        )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
