@@ -29,15 +29,24 @@ class Property(models.Model):
     guests = models.PositiveSmallIntegerField(default=0)
     bedrooms = models.PositiveSmallIntegerField(default=0)
     bathrooms = models.PositiveSmallIntegerField(default=0)
-    photo = models.URLField(max_length=200, null=True)
     amenities = models.JSONField(default=list)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def delete(self, *args, **kwargs):
+        # Delete associated listing images
+        for image in self.images.all():
+            if image.image:
+                destroy(image.image.public_id)
+            image.delete()
+        
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return self.title
+
 class ListingImage(models.Model):
     property = models.ForeignKey(Property, related_name='images', on_delete=models.CASCADE)
     image = CloudinaryField('image', null=True, blank=True)
