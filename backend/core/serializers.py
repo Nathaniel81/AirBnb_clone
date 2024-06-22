@@ -19,7 +19,7 @@ class ImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'image_url']
 
     def get_image_url(self, obj):
-        return cloudinary_url(obj.image.public_id)[0]
+        return cloudinary_url(obj.image.public_id, secure=True)[0]
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
