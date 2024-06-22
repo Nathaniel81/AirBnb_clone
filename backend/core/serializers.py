@@ -50,7 +50,7 @@ class PropertyListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Property
-        fields = ['id', 'title', 'price', 'location', 'images', 'photo', 'host']
+        fields = ['id', 'title', 'price', 'location', 'images', 'host']
     
     def get_images(self, obj):
         images = obj.images.all()[:5]
