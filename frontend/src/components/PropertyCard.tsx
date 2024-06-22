@@ -49,7 +49,6 @@ const PropertyCard = ({ property }: PropertyProps) => {
   const { 
     mutate: updateFavorites, 
     data,
-    isPending,
     isSuccess,
     error
   } = useUpdateFavorites();
@@ -65,24 +64,24 @@ const PropertyCard = ({ property }: PropertyProps) => {
   );
   const country = getCountryByValue(countryByLabel?.value as string);
 
-  const Favorites = user?.favorites || [];
+  const favorites = user?.favorites || [];
 
-  const isLiked = Favorites?.find((item: IProperty) => item?.id === property.id);
+  const userLiked = favorites?.some((item: IProperty) => item?.id === property.id);
+  const isPrevLiked = userLiked;
+  const [isLiked, setIsLiked] = useState(userLiked);
 
-  const iconStyle = isPending
-  ? { color: 'gray', opacity: 0.5 }
-  : isLiked ? 
-  { color: 'red' } : { color: 'white' };
+  const iconStyle =   isLiked ? { color: 'red' } : { color: 'white' };
 
   const handleClick = () => {
     if (!user){
-      toast({
+      return toast({
         title: 'Login Required',
         description: 'Please login or create an account.',
         variant: 'destructive',
       });
     }
-    updateFavorites({property_id: property?.id})
+    setIsLiked(!isLiked);
+    updateFavorites({property_id: property?.id});
   }
 
   useEffect(() => {
@@ -90,14 +89,25 @@ const PropertyCard = ({ property }: PropertyProps) => {
       dispatch(setFavorites(data.favorites))
     }
     if (isError?.response?.status === 401) {
+      setIsLiked(isPrevLiked);
       toast({
         title: 'Login Required',
         description: 'Please login or create an account.',
         variant: 'destructive',
       });
+      return;
+    }
+    if (isError) {
+      setIsLiked(isPrevLiked);
+      toast({
+        title: 'Something went wrong',
+        description: 'Please try again.',
+        variant: 'destructive',
+      });
+      return;
     }
     //eslint-disable-next-line
-  }, [isError, isSuccess, dispatch])
+  }, [isError, isSuccess, dispatch]);
 
 
   return (
@@ -105,7 +115,7 @@ const PropertyCard = ({ property }: PropertyProps) => {
       onClick={() => {
         navigate(`/property/${property.id}`)
       }}
-      className="flex flex-col">
+      className="flex flex-col group">
       <div className="relative h-72 cursor-pointer overflow-hidden">
         <div className="relative h-full w-full transition-transform duration-500 ease-in-out"
          style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
@@ -128,21 +138,22 @@ const PropertyCard = ({ property }: PropertyProps) => {
           {isLiked ? <FaHeart style={iconStyle} /> : <FaRegHeart style={iconStyle} />}
         </div>
         
-        <div
-          className={
-            `${currentIndex === 0 && "hidden"} 
-            absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white rounded-full p-2 cursor-pointer`
-          }
-          onClick={goToPrevSlide}>
-          <FaChevronLeft />
-        </div>
-        <div
-          className={
-            `${currentIndex === property.images.length - 1 && "hidden"} 
-            absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 text-white rounded-full p-2 cursor-pointer`}
-          onClick={goToNextSlide}>
-          <FaChevronRight />
-        </div>
+        {currentIndex !== 0 && (
+          <div
+            className="group-hover:block hidden absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 hover:bg-opacity-80 text-white rounded-full p-2 cursor-pointer"
+            onClick={goToPrevSlide}
+          >
+            <FaChevronLeft />
+          </div>
+        )}
+        {currentIndex !== property.images.length - 1 && (
+          <div
+            className="group-hover:block hidden absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-700 bg-opacity-50 hover:bg-opacity-80 text-white rounded-full p-2 cursor-pointer"
+            onClick={goToNextSlide}
+          >
+            <FaChevronRight />
+          </div>
+        )}
       </div>
 
       <div className="mt-2">
