@@ -34,7 +34,7 @@ export function BookingCard(
     dayCount 
   }: bookingCardProps) {
   return (
-    <Card className='w-[380px] mt-6'>
+    <Card className='md:w-[380px] mt-6'>
       <CardHeader>
         <CardTitle>
             ${price} <span className="text-sm text-muted-foreground">per night</span>

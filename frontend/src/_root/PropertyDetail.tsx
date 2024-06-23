@@ -132,7 +132,7 @@ const PropertyDetail = () =>  {
     if (isSuccess) {
         navigate('/');
         toast({
-            description: 'Reservation confirmed! Check your email for booking details.',
+            description: 'Reservation confirmed!',
           });
     }
     //eslint-disable-next-line
@@ -156,7 +156,7 @@ const PropertyDetail = () =>  {
         </div> */}
       </div>
       <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 md:gap-2 gap-y-2">
-        <div className="col-span-2 row-span-2">
+        <div className="col-span-2 row-span-2 aspect-w-1 aspect-h-1">
           <img
             src={propertyDetail?.images[0]?.image_url}
             alt="Property Image"
@@ -164,7 +164,7 @@ const PropertyDetail = () =>  {
           />
         </div>
         {propertyDetail?.images?.slice(1, 5).map((image: IImage, index: number) => (
-          <div key={index}>
+          <div key={index} className="aspect-w-1 aspect-h-1">
             <img
               src={image.image_url}
               alt={`Property Image ${index + 2}`}

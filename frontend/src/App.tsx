@@ -2,6 +2,7 @@ import { Suspense, lazy } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Loader from './components/loaders/Loader';
+import "./App.css"
 
 const Home = lazy(() => import('./_root/Home'));
 const PropertyDetail = lazy(() => import('./_root/PropertyDetail'));

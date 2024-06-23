@@ -16,7 +16,7 @@ const Loader = () => {
           <Skeleton className="w-24 h-12 rounded-full" />
         </div>
       </nav>
-          <div className="w-full flex flex-col items-center justify-center py-20">
+          <div className="w-full flex flex-col items-center justify-center h-screen">
             <Loader2 className="w-10 h-10 animate-spin" />
           </div>
       {/* <SkeletonLoading/> */}

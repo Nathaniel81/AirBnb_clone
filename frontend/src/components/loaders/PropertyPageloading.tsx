@@ -5,11 +5,11 @@ const PropertyPageloading = () => {
       <div className="w-full mx-auto mt-10">
         <Skeleton className="h-4 w-1/3" />
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 md:gap-2 gap-y-2">
-            <div className="col-span-2 row-span-2"> 
-             <Skeleton className="w-full h-[500px]" />
+            <div className="col-span-2 row-span-2 aspect-w-1 aspect-h-1"> 
+             <Skeleton className="w-full h-full" />
             </div>
             {Array.from({ length: 4 }).map((_, index) => (
-              <div key={index}>
+              <div key={index} className="aspect-w-1 aspect-h-1">
                 <Skeleton className="h-full w-full" />
               </div>
             ))}

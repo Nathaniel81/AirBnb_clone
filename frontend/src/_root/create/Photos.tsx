@@ -114,6 +114,7 @@ const Photos = () => {
                           ))}
                           <input
                             id="image"
+                            ref={fileInput}
                             type="file"
                             style={{ display: "none" }}
                             accept="image/*"

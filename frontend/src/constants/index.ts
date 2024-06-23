@@ -1,6 +1,6 @@
 export const NavImages =  {
     logo: "../../logo.png",
-    logoName: "../../logo-2.png",
+    logoName: "../../logo-3.png",
     user: "../../default-user.jpg"
 }
 

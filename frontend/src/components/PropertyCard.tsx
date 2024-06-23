@@ -135,7 +135,7 @@ const PropertyCard = ({ property }: PropertyProps) => {
             e.stopPropagation();
             handleClick();
           }}>
-          {isLiked ? <FaHeart style={iconStyle} /> : <FaRegHeart style={iconStyle} />}
+          {isLiked ? <FaHeart size={20} style={iconStyle} /> : <FaRegHeart size={20} style={iconStyle} />}
         </div>
         
         {currentIndex !== 0 && (
