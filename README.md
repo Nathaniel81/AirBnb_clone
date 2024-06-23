@@ -119,4 +119,4 @@ This project represents a significant learning journey in full-stack development
 
 ## Live Demo
 
-<!-- Explore the live version of this project on [https://airbnb-msgo.onrender.com](https://airbnb-msgo.onrender.com).-->
+Explore the live version of this project on [https://easebnb.onrender.com](https://easebnb.onrender.com).
