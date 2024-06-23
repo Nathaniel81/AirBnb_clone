@@ -104,7 +104,7 @@ const SearchBar = () => {
               <DialogHeader>
                 <DialogTitle>Select a Country</DialogTitle>
                 <DialogDescription>
-                  Pleae Choose a Country, so that what you want
+                Please choose a country to find what you're looking for.
                 </DialogDescription>
               </DialogHeader>
 
@@ -141,9 +141,9 @@ const SearchBar = () => {
           ) : (
             <>
               <DialogHeader>
-                <DialogTitle>Select all the info you need</DialogTitle>
+                <DialogTitle>Specify Your Preferences</DialogTitle>
                 <DialogDescription>
-                  Please Choose a Country, so that what you want
+                  Please choose the necessary details to refine your search
                 </DialogDescription>
               </DialogHeader>
 
@@ -153,7 +153,7 @@ const SearchBar = () => {
                     <div className="flex flex-col">
                       <h3 className="underline font-medium">Guests</h3>
                       <p className="text-muted-foreground text-sm">
-                        How many guests do you want?
+                        How many guests will be staying?
                       </p>
                     </div>
                     <Counter 
@@ -165,9 +165,9 @@ const SearchBar = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex flex-col">
-                      <h3 className="underline font-medium">Rooms</h3>
+                      <h3 className="underline font-medium">Bedrooms</h3>
                       <p className="text-muted-foreground text-sm">
-                        How many rooms do you have?
+                        How many bedrooms are you looking for?
                       </p>
                     </div>
                     <Counter 
@@ -181,7 +181,7 @@ const SearchBar = () => {
                     <div className="flex flex-col">
                       <h3 className="underline font-medium">Bathrooms</h3>
                       <p className="text-muted-foreground text-sm">
-                        How many bathrooms do you want?
+                        How many bathrooms do you need?
                       </p>
                     </div>
                     <Counter 
